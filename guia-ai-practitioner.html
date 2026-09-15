@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía interactiva · AWS Certified AI Practitioner (AIF-C01)</title>
+<style>
+  :root{
+    --ink:#232F3E;        /* Squid Ink */
+    --ink2:#2d3b4d;
+    --orange:#FF9900;     /* Smile Orange */
+    --orange-d:#e88a00;
+    --bg:#f4f6f9;
+    --card:#ffffff;
+    --line:#e3e8ef;
+    --text:#1b2530;
+    --muted:#5c6b7a;
+    --green:#127a3e;
+    --green-bg:#e7f6ec;
+    --red:#c0392b;
+    --red-bg:#fdecea;
+    --blue:#146eb4;       /* AWS blue */
+    --shadow:0 2px 10px rgba(35,47,62,.08);
+    --shadow-h:0 8px 24px rgba(35,47,62,.14);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue)}
+  /* Header */
+  header.top{
+    background:linear-gradient(120deg,var(--ink) 0%,var(--ink2) 100%);
+    color:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 12px rgba(0,0,0,.18);
+  }
+  .top-inner{max-width:1080px;margin:0 auto;padding:14px 18px 0}
+  .brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand .logo{
+    background:var(--orange);color:var(--ink);font-weight:800;border-radius:8px;
+    padding:6px 10px;font-size:14px;letter-spacing:.5px;white-space:nowrap
+  }
+  .brand h1{font-size:18px;margin:0;font-weight:650}
+  .brand .sub{color:#c7d0da;font-size:12.5px;margin-left:auto}
+  nav.tabs{display:flex;gap:4px;overflow-x:auto;margin-top:12px;padding-bottom:2px;scrollbar-width:thin}
+  nav.tabs button{
+    background:transparent;border:0;color:#c7d0da;font-size:14px;font-weight:600;
+    padding:10px 14px;border-radius:8px 8px 0 0;cursor:pointer;white-space:nowrap;
+    border-bottom:3px solid transparent;transition:.15s;
+  }
+  nav.tabs button:hover{color:#fff;background:rgba(255,255,255,.06)}
+  nav.tabs button.active{color:#fff;border-bottom-color:var(--orange);background:rgba(255,153,0,.12)}
+  /* Layout */
+  main{max-width:1080px;margin:0 auto;padding:22px 18px 80px}
+  .panel{display:none;animation:fade .25s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  h2.section{font-size:22px;margin:2px 0 4px;color:var(--ink)}
+  p.lead{color:var(--muted);margin:0 0 18px;max-width:70ch}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
+  /* Inicio */
+  .hero{display:grid;grid-template-columns:1fr;gap:16px}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+  .stat b{display:block;font-size:26px;color:var(--orange-d);line-height:1.1}
+  .stat span{font-size:12.5px;color:var(--muted)}
+  table.weights{width:100%;border-collapse:collapse;margin-top:6px}
+  table.weights th,table.weights td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-size:14px}
+  table.weights th{color:var(--muted);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px}
+  .bar{height:10px;background:#eef1f5;border-radius:6px;overflow:hidden;min-width:90px}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--orange-d))}
+  .progress-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .ring{--p:0;width:96px;height:96px;border-radius:50%;
+    background:conic-gradient(var(--orange) calc(var(--p)*1%),#e9edf2 0);
+    display:grid;place-items:center;flex:none}
+  .ring>div{width:72px;height:72px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+  .ring b{font-size:20px;color:var(--ink)}
+  .ring small{font-size:10.5px;color:var(--muted)}
+  .btn{background:var(--orange);color:var(--ink);border:0;border-radius:9px;padding:10px 16px;
+    font-weight:700;font-size:14px;cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+  .btn:hover{background:var(--orange-d);color:#fff;transform:translateY(-1px)}
+  .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .btn.ghost:hover{background:#f0f2f6;color:var(--ink);transform:none}
+  .btn.blue{background:var(--blue);color:#fff}
+  .btn.blue:hover{background:#0f588f}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  /* Repaso (accordion) */
+  .domain-head{display:flex;align-items:center;gap:12px;margin:22px 0 8px}
+  .domain-head .pill{background:var(--ink);color:#fff;border-radius:8px;padding:4px 10px;font-size:12.5px;font-weight:700;flex:none}
+  .domain-head h3{margin:0;font-size:17px;color:var(--ink)}
+  .domain-head .w{margin-left:auto;font-size:12.5px;color:var(--muted);background:#fff;border:1px solid var(--line);padding:3px 9px;border-radius:20px;flex:none}
+  .acc{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow)}
+  .acc>button{width:100%;text-align:left;background:none;border:0;padding:14px 16px;cursor:pointer;
+    display:flex;align-items:center;gap:10px;font-size:15px;font-weight:650;color:var(--ink)}
+  .acc>button .tno{background:var(--orange);color:var(--ink);border-radius:6px;font-size:12px;font-weight:800;padding:2px 7px;flex:none}
+  .acc>button .chev{margin-left:auto;transition:.2s;color:var(--muted);flex:none}
+  .acc.open>button .chev{transform:rotate(180deg)}
+  .acc .body{display:none;padding:2px 18px 16px 18px;border-top:1px solid var(--line)}
+  .acc.open .body{display:block}
+  .acc .body ul{margin:12px 0 6px;padding-left:20px}
+  .acc .body li{margin:6px 0;font-size:14.5px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tag{background:#eef4fb;color:var(--blue);border:1px solid #d6e6f6;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600}
+  /* Preguntas */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);transition:.15s}
+  .chip:hover{border-color:var(--orange)}
+  .chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
+  .q .meta{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+  .q .meta .d{background:#eef4fb;color:var(--blue);font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .q .meta .ty{background:#f3eefb;color:#6b3fb0;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .q .meta .st{margin-left:auto;font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .q .meta .st.ok{background:var(--green-bg);color:var(--green)}
+  .q .meta .st.no{background:var(--red-bg);color:var(--red)}
+  .q .stem{font-size:15.5px;font-weight:600;margin:2px 0 12px}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;align-items:flex-start;gap:11px;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;cursor:pointer;transition:.12s;font-size:14.5px;background:#fff}
+  .opt:hover{border-color:var(--orange);background:#fffdf7}
+  .opt .box{width:20px;height:20px;border:2px solid #b9c2cd;border-radius:5px;flex:none;display:grid;place-items:center;margin-top:1px;font-size:12px;color:#fff;font-weight:800}
+  .opt.radio .box{border-radius:50%}
+  .opt.sel{border-color:var(--orange);background:#fff8ec}
+  .opt.sel .box{background:var(--orange);border-color:var(--orange-d)}
+  .opt.correct{border-color:var(--green);background:var(--green-bg)}
+  .opt.correct .box{background:var(--green);border-color:var(--green)}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg)}
+  .opt.wrong .box{background:var(--red);border-color:var(--red)}
+  .opt.locked{cursor:default}
+  .q .actions{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .explain{margin-top:12px;border-left:4px solid var(--orange);background:#fff8ec;border-radius:8px;padding:11px 14px;font-size:14px;display:none}
+  .explain.show{display:block}
+  .explain b{color:var(--orange-d)}
+  /* Flashcards */
+  .fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .fc{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    min-height:150px;cursor:pointer;perspective:1000px}
+  .fc-inner{position:relative;width:100%;height:100%;min-height:150px;transition:transform .5s;transform-style:preserve-3d}
+  .fc.flip .fc-inner{transform:rotateY(180deg)}
+  .fc-face{position:absolute;inset:0;backface-visibility:hidden;padding:16px;display:grid;place-items:center;text-align:center;border-radius:14px}
+  .fc-front{font-weight:700;color:var(--ink);font-size:15.5px}
+  .fc-back{transform:rotateY(180deg);background:var(--ink);color:#fff;font-size:13.5px;line-height:1.5}
+  .fc-front small{position:absolute;bottom:8px;left:0;right:0;color:var(--muted);font-weight:500;font-size:11px}
+  /* Glosario / servicios */
+  .glos dt{font-weight:700;color:var(--ink);margin-top:14px;font-size:15px}
+  .glos dt .en{color:var(--muted);font-weight:500;font-size:12.5px}
+  .glos dd{margin:3px 0 0;color:var(--text);font-size:14px}
+  table.svc{width:100%;border-collapse:collapse}
+  table.svc th,table.svc td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+  table.svc th{position:sticky;top:104px;background:#fff}
+  table.svc td.name{font-weight:700;color:var(--ink);white-space:nowrap}
+  .cat-row td{background:var(--ink);color:#fff;font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.5px}
+  /* Simulacro */
+  .sim-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:104px;z-index:10;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow);margin-bottom:16px}
+  .sim-bar .timer{font-weight:800;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .sim-bar .count{color:var(--muted);font-size:13.5px}
+  .result-score{font-size:52px;font-weight:800;line-height:1}
+  .result-score.pass{color:var(--green)}
+  .result-score.fail{color:var(--red)}
+  .verdict{font-size:18px;font-weight:800;margin-top:4px}
+  .verdict.pass{color:var(--green)}
+  .verdict.fail{color:var(--red)}
+  .dom-break{display:grid;gap:8px;margin-top:14px}
+  .dom-break .row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:13.5px}
+  .note{font-size:12.5px;color:var(--muted)}
+  .callout{background:#eef4fb;border:1px solid #d6e6f6;border-radius:10px;padding:12px 14px;font-size:13.5px;color:#0f4c78;margin-bottom:16px}
+  footer{max-width:1080px;margin:0 auto;padding:0 18px 40px;color:var(--muted);font-size:12.5px;text-align:center}
+  @media (max-width:720px){
+    .stat-row{grid-template-columns:repeat(2,1fr)}
+    .brand .sub{display:none}
+    table.svc th{top:96px}
+    .sim-bar{top:96px}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span class="logo">AWS · AIF-C01</span>
+      <h1>Guía interactiva · AI Practitioner</h1>
+      <span class="sub" id="miniProgress">Progreso: 0%</span>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="inicio" class="active">Inicio</button>
+      <button data-tab="repaso">Repaso por dominio</button>
+      <button data-tab="preguntas">Banco de preguntas</button>
+      <button data-tab="simulacro">Simulacro</button>
+      <button data-tab="flashcards">Flashcards</button>
+      <button data-tab="glosario">Glosario</button>
+      <button data-tab="servicios">Servicios AWS</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- INICIO -->
+  <section class="panel active" id="panel-inicio"></section>
+  <!-- REPASO -->
+  <section class="panel" id="panel-repaso"></section>
+  <!-- PREGUNTAS -->
+  <section class="panel" id="panel-preguntas"></section>
+  <!-- SIMULACRO -->
+  <section class="panel" id="panel-simulacro"></section>
+  <!-- FLASHCARDS -->
+  <section class="panel" id="panel-flashcards"></section>
+  <!-- GLOSARIO -->
+  <section class="panel" id="panel-glosario"></section>
+  <!-- SERVICIOS -->
+  <section class="panel" id="panel-servicios"></section>
+</main>
+
+<footer>
+  Guía de estudio no oficial basada en la Guía de examen oficial AWS Certified AI Practitioner (AIF-C01).
+  Úsala como complemento de repaso. ¡Mucho éxito en tu examen! 🚀
+</footer>
+
+<script>
+/* ============================================================
+   DATOS
+   ============================================================ */
+const DOMINIOS = [
+  {
+    id:"1", peso:20, titulo:"Aspectos básicos de la IA y el ML",
+    tareas:[
+      { id:"1.1", titulo:"Explicar la terminología y los conceptos básicos de la IA",
+        puntos:[
+          "<b>IA ⊃ ML ⊃ Deep Learning</b>. La IA es el campo amplio; el ML aprende patrones a partir de datos; el aprendizaje profundo (deep learning) usa redes neuronales de muchas capas. La <b>GenAI</b> (subconjunto del DL) crea contenido nuevo; la <b>IA agéntica</b> usa modelos que planifican y ejecutan acciones con herramientas de forma autónoma.",
+          "<b>Conceptos base:</b> red neuronal, visión artificial (computer vision), NLP (procesamiento de lenguaje natural), modelo (lo aprendido) vs algoritmo (cómo aprende), <b>entrenamiento</b> (aprender de datos) vs <b>inferencia</b> (usar el modelo para predecir), sesgo/equidad, <b>LLM</b> (modelo de lenguaje de gran tamaño).",
+          "<b>Tipos de inferencia:</b> por <b>lotes</b> (batch, grandes volúmenes sin urgencia), en <b>tiempo real</b> (baja latencia, síncrona), <b>asíncrona</b> (cargas grandes/colas) y <b>sin servidor</b> (serverless, escala automática y paga por uso).",
+          "<b>Tipos de datos:</b> etiquetados vs sin etiquetar; tabulares; series temporales; imágenes; texto; y <b>estructurados</b> (tablas) vs <b>no estructurados</b> (texto, imágenes, audio).",
+          "<b>Tipos de aprendizaje:</b> <b>supervisado</b> (datos etiquetados → clasificación/regresión), <b>no supervisado</b> (sin etiquetas → clustering, reducción de dimensionalidad) y por <b>refuerzo</b> (agente aprende por recompensas/penalizaciones)."
+        ], servicios:[] },
+      { id:"1.2", titulo:"Identificar casos de uso prácticos de la IA",
+        puntos:[
+          "<b>Cuándo aporta valor la IA/ML:</b> apoyar la toma de decisiones, escalar soluciones y automatizar tareas repetitivas o de gran volumen.",
+          "<b>Cuándo NO conviene:</b> cuando un análisis costo-beneficio no lo justifica, o cuando se necesita un <b>resultado exacto y determinístico</b> (reglas fijas) en lugar de una predicción probabilística.",
+          "<b>Técnicas por caso:</b> <b>regresión</b> (predecir un número continuo), <b>clasificación</b> (predecir una categoría) y <b>clustering</b> (agrupar datos sin etiquetas).",
+          "<b>Aplicaciones del mundo real:</b> visión artificial, NLP, reconocimiento de voz, sistemas de recomendación, detección de fraude, pronósticos (forecasting), bases de conocimiento e IA agéntica.",
+          "<b>Servicios de IA administrados de AWS:</b> <b>SageMaker AI</b> (crear/entrenar/desplegar), <b>Transcribe</b> (voz→texto), <b>Translate</b> (traducción), <b>Comprehend</b> (NLP: sentimiento, entidades), <b>Lex</b> (chatbots/voz), <b>Polly</b> (texto→voz).",
+          "<b>ML tradicional vs FM:</b> elige ML tradicional cuando necesitas explicabilidad, control regulatorio o un modelo pequeño y específico; elige FM/GenAI para lenguaje natural, generación de contenido y tareas amplias."
+        ], servicios:["SageMaker AI","Transcribe","Translate","Comprehend","Amazon Lex","Amazon Polly"] },
+      { id:"1.3", titulo:"Describir el ciclo de vida de desarrollo de IA/ML",
+        puntos:[
+          "<b>Canalización (pipeline) de ML:</b> recopilación de datos → preparación/procesamiento → ingeniería de características → entrenamiento → evaluación → despliegue → monitoreo/reentrenamiento.",
+          "<b>Fuentes de FM:</b> modelos preentrenados de código abierto/comerciales y modelos personalizados entrenados desde cero.",
+          "<b>Modelo en producción:</b> mediante <b>API administrada</b> (p. ej. Amazon Bedrock: sin gestionar infraestructura) o <b>API autoalojada</b> (más control, más operación).",
+          "<b>Servicios por etapa:</b> <b>Bedrock</b> (FM vía API), <b>SageMaker AI</b> (ciclo ML completo), <b>Amazon Q</b> (asistente GenAI).",
+          "<b>MLOps:</b> experimentación, procesos repetibles, sistemas escalables, gestión de deuda técnica, preparación para producción, y <b>monitoreo + reentrenamiento</b> de modelos.",
+          "<b>Métricas de modelo:</b> exactitud (accuracy), precisión (precision), exhaustividad (recall) y <b>F1</b>. <b>Métricas de negocio:</b> costo por usuario, costos de desarrollo, satisfacción del cliente y ROI."
+        ], servicios:["Amazon Bedrock","SageMaker AI","Amazon Q"] }
+    ]
+  },
+  {
+    id:"2", peso:24, titulo:"Aspectos básicos de la IA generativa",
+    tareas:[
+      { id:"2.1", titulo:"Explicar los conceptos básicos de la IA generativa (GenAI)",
+        puntos:[
+          "<b>Conceptos base:</b> <b>tokens</b> (unidades de texto), <b>fragmentación</b> (chunking), <b>embeddings</b> (representaciones numéricas del significado), <b>vectores</b>, ingeniería de peticiones, <b>LLM basados en transformadores</b>, <b>FM</b> (modelos fundacionales), modelos <b>multimodales</b> (texto+imagen+audio) y modelos de <b>difusión</b> (generan imágenes).",
+          "<b>Casos de uso:</b> generación de imágenes/video/audio, resúmenes, asistentes de IA, traducción, generación de código, agentes de servicio al cliente, búsqueda de información y motores de recomendación.",
+          "<b>Ciclo de vida de un FM:</b> selección de datos → selección del modelo → preentrenamiento → refinamiento (fine-tuning) → evaluación → implementación → retroalimentación.",
+          "<b>Precios basados en tokens:</b> se paga por tokens de entrada + salida; más tokens = mayor costo y latencia. Optimizar el tamaño del prompt reduce costo.",
+          "<b>Ingeniería de contexto:</b> proporcionar el contexto adecuado (documentos, instrucciones, ejemplos) para que el FM responda mejor.",
+          "<b>IA entre agentes (multiagente):</b> patrones multiagente para tareas complejas, el <b>MCP (Model Context Protocol)</b> para conectar agentes a sistemas externos, comunicación entre agentes, gestión de memoria, uso de herramientas y orquestación de flujos."
+        ], servicios:["Amazon Bedrock"] },
+      { id:"2.2", titulo:"Capacidades y limitaciones de la GenAI para problemas empresariales",
+        puntos:[
+          "<b>Ventajas:</b> adaptabilidad, capacidad de respuesta, capacidades de conversación y capacidad de generar contenido nuevo.",
+          "<b>Desventajas:</b> <b>alucinaciones</b> (información inventada pero plausible), baja interpretabilidad, inexactitud y falta de <b>determinismo</b> (la misma entrada puede dar salidas distintas).",
+          "<b>Factores para seleccionar un modelo:</b> tipo de modelo, requisitos de desempeño, capacidades, restricciones, cumplimiento, costo, latencia y complejidad del modelo.",
+          "<b>Valor empresarial y métricas:</b> desempeño entre dominios, ROI, eficiencia, tasa de conversión, ingresos promedio por usuario (ARPU), exactitud y valor del ciclo de vida del cliente (CLV)."
+        ], servicios:[] },
+      { id:"2.3", titulo:"Infraestructura y tecnologías de AWS para GenAI",
+        puntos:[
+          "<b>Servicios para construir GenAI:</b> <b>Amazon Bedrock</b> (FM vía API), <b>SageMaker AI</b>, <b>SageMaker JumpStart</b> (modelos preconstruidos), <b>Amazon Q</b> (asistente), <b>Strands Agents</b> y <b>Amazon Bedrock AgentCore</b> (agentes).",
+          "<b>Ventajas de los servicios GenAI de AWS:</b> accesibilidad, menor barrera de entrada, eficiencia, rentabilidad, velocidad de comercialización (time-to-market) y capacidad para cumplir objetivos empresariales.",
+          "<b>Beneficios de la infraestructura de AWS:</b> seguridad, cumplimiento, responsabilidad y protección de datos.",
+          "<b>Ventajas y desventajas a considerar:</b> capacidad de respuesta, disponibilidad, redundancia, rendimiento, cobertura regional, precios por tokens, <b>rendimiento aprovisionado</b> (provisioned throughput) y modelos personalizados."
+        ], servicios:["Amazon Bedrock","SageMaker AI","SageMaker JumpStart","Amazon Q","Bedrock AgentCore"] }
+    ]
+  },
+  {
+    id:"3", peso:28, titulo:"Aplicaciones de los modelos fundacionales",
+    tareas:[
+      { id:"3.1", titulo:"Consideraciones de diseño para aplicaciones con FM",
+        puntos:[
+          "<b>Criterios de selección de FM:</b> costo, modalidad, latencia, multilingüismo, tamaño y complejidad del modelo, personalización, longitud de entrada/salida (ventana de contexto) y <b>almacenamiento en caché de peticiones</b> (prompt caching).",
+          "<b>Parámetros de inferencia:</b> la <b>temperatura</b> controla la aleatoriedad (baja = más determinista/enfocado; alta = más creativo/diverso); también <b>Top-P</b> y la longitud máxima de salida.",
+          "<b>RAG (generación aumentada por recuperación):</b> combina el FM con una base de conocimiento externa para respuestas actualizadas y con fundamento (grounding), sin reentrenar. En AWS: <b>Bases de conocimiento de Amazon Bedrock</b>.",
+          "<b>Bases de datos vectoriales</b> (almacenan embeddings para RAG): <b>Amazon OpenSearch Service</b>, <b>Amazon Aurora</b>, <b>Amazon Neptune</b> y <b>Amazon RDS para PostgreSQL</b> (pgvector).",
+          "<b>Costos de personalización (de menor a mayor esfuerzo):</b> <b>prompt engineering / in-context learning</b> (más barato) → <b>RAG</b> → <b>fine-tuning</b> → <b>preentrenamiento continuo</b> → <b>preentrenamiento desde cero</b> (más caro). La <b>destilación</b> crea un modelo más pequeño y económico.",
+          "<b>Agentes de IA:</b> usan un FM para razonar, invocar herramientas/APIs y completar tareas de varios pasos (p. ej. Agentes de Amazon Bedrock)."
+        ], servicios:["Bedrock Knowledge Bases","OpenSearch Service","Amazon Aurora","Amazon Neptune","RDS PostgreSQL"] },
+      { id:"3.2", titulo:"Elegir técnicas de ingeniería de peticiones eficaces",
+        puntos:[
+          "<b>Construcciones del prompt:</b> <b>contexto</b> (información de fondo), <b>instrucción</b> (qué hacer) y <b>peticiones negativas</b> (qué evitar).",
+          "<b>Técnicas:</b> <b>cadena de pensamiento (CoT)</b> (razonar paso a paso), <b>zero-shot</b> (sin ejemplos), <b>one-shot</b> (un ejemplo), <b>few-shot</b> (varios ejemplos) y <b>plantillas de peticiones</b>.",
+          "<b>Buenas prácticas:</b> especificidad y concisión, experimentación, uso de <b>barreras de protección (guardrails)</b> y aprovechar varios comentarios/feedback para mejorar la calidad.",
+          "<b>Riesgos:</b> <b>exposición</b> de datos del prompt, <b>envenenamiento</b> (poisoning), <b>secuestro</b> (prompt hijacking) y <b>jailbreak</b> (evadir restricciones del modelo).",
+          "<b>Versionado y gestión:</b> <b>Amazon Bedrock Prompt Management</b> para versionar y administrar prompts."
+        ], servicios:["Bedrock Guardrails","Bedrock Prompt Management"] },
+      { id:"3.3", titulo:"Proceso de entrenamiento y refinamiento de los FM",
+        puntos:[
+          "<b>Elementos del entrenamiento:</b> <b>preentrenamiento</b> (aprender de grandes corpus), <b>refinamiento/fine-tuning</b>, <b>preentrenamiento continuo</b> (seguir entrenando con datos de dominio) y <b>destilación</b> (transferir conocimiento a un modelo menor).",
+          "<b>Métodos de fine-tuning:</b> <b>ajuste por instrucciones</b> (instruction tuning), <b>adaptación de dominio</b>, <b>transferencia de aprendizaje</b> (transfer learning) y preentrenamiento continuo.",
+          "<b>Preparación de datos para refinar:</b> selección de datos, gobernanza, tamaño adecuado, <b>etiquetado</b>, representatividad y <b>RLHF</b> (aprendizaje por refuerzo a partir de retroalimentación humana)."
+        ], servicios:["SageMaker AI","Amazon Bedrock"] },
+      { id:"3.4", titulo:"Métodos para evaluar el rendimiento de los FM",
+        puntos:[
+          "<b>Enfoques de evaluación:</b> evaluación <b>humana</b>, <b>conjuntos de datos de referencia</b> (benchmarks) y la <b>evaluación de modelos de Amazon Bedrock</b>.",
+          "<b>Métricas:</b> <b>ROUGE</b> (evalúa resúmenes), <b>BLEU</b> (evalúa traducción automática), <b>BERTScore</b> (similitud semántica) y <b>LLM como juez</b> (usar un LLM para calificar respuestas).",
+          "<b>Alineación con el negocio:</b> ¿el FM cumple objetivos como productividad, participación de usuarios y calidad de la tarea?",
+          "<b>Evaluar apps con FM:</b> medir el rendimiento de RAG, agentes y flujos de trabajo completos, no solo el modelo aislado.",
+          "<b>Métricas de negocio:</b> tasa de finalización de tareas, satisfacción del usuario y costo por interacción."
+        ], servicios:["Bedrock (evaluación de modelos)"] }
+    ]
+  },
+  {
+    id:"4", peso:14, titulo:"Pautas para una IA responsable",
+    tareas:[
+      { id:"4.1", titulo:"Explicar el desarrollo de sistemas de IA responsables",
+        puntos:[
+          "<b>Características de la IA responsable:</b> control del <b>sesgo</b>, <b>equidad</b>, inclusividad, solidez (robustez), seguridad y veracidad.",
+          "<b>Herramientas:</b> <b>Barreras de protección de Amazon Bedrock (Guardrails)</b> para filtrar contenido dañino, temas y datos sensibles.",
+          "<b>Selección responsable de modelos:</b> considerar el impacto ambiental y la sostenibilidad (modelos más pequeños/eficientes).",
+          "<b>Riesgos legales de la GenAI:</b> infracción de propiedad intelectual, salidas sesgadas, pérdida de confianza del cliente, riesgo para el usuario final y alucinaciones.",
+          "<b>Características de buenos datasets:</b> inclusividad, diversidad, orígenes de datos seleccionados (curated) y conjuntos equilibrados (balanced).",
+          "<b>Sesgo y varianza:</b> el <b>sobreajuste (overfitting)</b> = alta varianza (memoriza el entrenamiento, falla en datos nuevos); el <b>infraajuste (underfitting)</b> = alto sesgo (demasiado simple). Pueden afectar de forma desigual a grupos demográficos.",
+          "<b>Herramientas de detección/monitoreo de sesgo:</b> análisis de calidad de etiquetas, auditorías humanas, análisis de subgrupos, <b>Amazon SageMaker Clarify</b>, <b>SageMaker Model Monitor</b> y <b>Amazon Augmented AI (A2I)</b> (revisión humana)."
+        ], servicios:["Bedrock Guardrails","SageMaker Clarify","SageMaker Model Monitor","Amazon A2I"] },
+      { id:"4.2", titulo:"Importancia de los modelos transparentes y explicables",
+        puntos:[
+          "<b>Transparente vs explicable:</b> un modelo <b>transparente</b> permite ver cómo funciona; uno <b>explicable</b> permite entender por qué tomó una decisión. Los modelos complejos (deep learning) suelen ser \"cajas negras\".",
+          "<b>Herramientas:</b> <b>SageMaker Model Cards</b> (documentan el modelo), <b>SageMaker Clarify</b> (explicabilidad/sesgo), evaluaciones de modelos de Amazon Bedrock, y modelos de código abierto (datos y licencias visibles).",
+          "<b>Compensación seguridad ↔ transparencia:</b> más interpretabilidad puede implicar menor rendimiento; hay que equilibrar.",
+          "<b>Diseño centrado en el ser humano:</b> mecanismos de retroalimentación del usuario y transparencia sobre las decisiones de la IA."
+        ], servicios:["SageMaker Model Cards","SageMaker Clarify"] }
+    ]
+  },
+  {
+    id:"5", peso:14, titulo:"Seguridad, cumplimiento y gobernanza para soluciones de IA",
+    tareas:[
+      { id:"5.1", titulo:"Explicar los métodos para proteger los sistemas de IA",
+        puntos:[
+          "<b>Servicios para proteger IA:</b> roles/políticas/permisos de <b>IAM</b>, cifrado (<b>AWS KMS</b>), <b>Amazon Macie</b> (detecta datos sensibles en S3), <b>AWS PrivateLink</b> (conectividad privada), el <b>modelo de responsabilidad compartida</b>, <b>Bedrock AgentCore Identity</b> y <b>Amazon Bedrock Guardrails</b>.",
+          "<b>Procedencia y citación de fuentes:</b> <b>linaje de datos</b> (data lineage), catalogación de datos y <b>Tarjetas de modelos de SageMaker</b>.",
+          "<b>Ingeniería de datos segura:</b> evaluación de calidad de datos, tecnologías que mejoran la privacidad (PET), control de acceso e integridad de datos.",
+          "<b>Seguridad y privacidad:</b> seguridad de aplicaciones, detección de amenazas, gestión de vulnerabilidades, protección de la infraestructura, <b>inyección de prompts</b>, cifrado en reposo y en tránsito, prevención de fugas de datos (DLP), filtrado/validación de resultados, registro y seguimiento de auditoría, y control de <b>toxicidad</b>.",
+          "<b>Contra alucinaciones (grounding):</b> <b>RAG</b> para fundamentar respuestas, validación de resultados y puntuación de confianza (confidence scoring)."
+        ], servicios:["IAM","AWS KMS","Amazon Macie","AWS PrivateLink","Bedrock Guardrails"] },
+      { id:"5.2", titulo:"Normas de gobernanza y cumplimiento de los sistemas de IA",
+        puntos:[
+          "<b>Servicios de cumplimiento/gobernanza:</b> <b>AWS Config</b> (configuración/conformidad), <b>Amazon Inspector</b> (vulnerabilidades), <b>AWS Audit Manager</b> (auditorías), <b>AWS Artifact</b> (informes de cumplimiento), <b>AWS CloudTrail</b> (registro de acciones de API) y <b>AWS Trusted Advisor</b> (buenas prácticas).",
+          "<b>Estrategias de gobernanza de datos:</b> ciclos de vida de datos, registro (logging), residencia de datos, supervisión, observabilidad y retención.",
+          "<b>Protocolos de gobernanza:</b> políticas, cadencia y estrategias de revisión, marcos de gobernanza como la <b>Matriz de alcance de seguridad de la IA generativa</b> (AWS Generative AI Security Scoping Matrix), estándares de transparencia y requisitos de formación de equipos."
+        ], servicios:["AWS Config","Amazon Inspector","AWS Audit Manager","AWS Artifact","AWS CloudTrail","AWS Trusted Advisor"] }
+    ]
+  }
+];
+
+const FLASHCARDS = [
+  {frente:"IA vs ML vs Deep Learning", reverso:"IA: campo amplio de máquinas \"inteligentes\". ML: subconjunto que aprende de datos. Deep Learning: subconjunto del ML con redes neuronales profundas."},
+  {frente:"GenAI vs IA agéntica", reverso:"GenAI genera contenido nuevo (texto, imágenes, código). IA agéntica usa un FM para planificar y ejecutar acciones autónomas con herramientas."},
+  {frente:"Aprendizaje supervisado", reverso:"Aprende de datos ETIQUETADOS. Tareas: clasificación (categorías) y regresión (valores numéricos)."},
+  {frente:"Aprendizaje no supervisado", reverso:"Aprende de datos SIN etiquetar. Tareas: clustering (agrupar) y reducción de dimensionalidad."},
+  {frente:"Aprendizaje por refuerzo", reverso:"Un agente aprende mediante recompensas y penalizaciones al interactuar con un entorno. Base del RLHF."},
+  {frente:"Entrenamiento vs inferencia", reverso:"Entrenamiento: el modelo aprende de los datos. Inferencia: el modelo entrenado hace predicciones sobre datos nuevos."},
+  {frente:"Token", reverso:"Unidad básica de texto que procesa un LLM (≈ una palabra o fragmento). El precio de los FM se basa en tokens de entrada + salida."},
+  {frente:"Embeddings / vectores", reverso:"Representación numérica del significado de texto/imagen. Se almacenan en bases de datos vectoriales y habilitan búsqueda semántica y RAG."},
+  {frente:"RAG", reverso:"Retrieval-Augmented Generation: recupera datos de una base de conocimiento externa y los añade al prompt para respuestas actualizadas y fundamentadas, sin reentrenar."},
+  {frente:"Temperatura", reverso:"Parámetro de inferencia que controla la aleatoriedad. Baja = respuestas enfocadas/deterministas; alta = más creativas/diversas."},
+  {frente:"Alucinación", reverso:"Cuando un FM genera información falsa pero convincente. Se mitiga con RAG (grounding), validación de salidas y guardrails."},
+  {frente:"Fine-tuning vs RAG vs Prompt Engineering", reverso:"Prompt eng.: más barato, sin cambiar el modelo. RAG: añade conocimiento externo. Fine-tuning: reentrena con datos propios (más caro)."},
+  {frente:"Destilación de modelos", reverso:"Transfiere el conocimiento de un modelo grande a uno más pequeño y económico, manteniendo buena parte del rendimiento."},
+  {frente:"Zero / One / Few-shot", reverso:"Zero-shot: sin ejemplos. One-shot: un ejemplo. Few-shot: varios ejemplos en el prompt para guiar al modelo."},
+  {frente:"Cadena de pensamiento (CoT)", reverso:"Técnica de prompting que pide al modelo razonar paso a paso, mejorando tareas de lógica y matemáticas."},
+  {frente:"ROUGE vs BLEU", reverso:"ROUGE evalúa resúmenes. BLEU evalúa traducción automática. BERTScore mide similitud semántica."},
+  {frente:"Accuracy, Precision, Recall, F1", reverso:"Accuracy: aciertos totales. Precision: de lo predicho positivo, cuánto acertó. Recall: de lo realmente positivo, cuánto detectó. F1: balance de precision y recall."},
+  {frente:"Overfitting vs Underfitting", reverso:"Overfitting: memoriza el entrenamiento, falla en datos nuevos (alta varianza). Underfitting: demasiado simple, no aprende (alto sesgo)."},
+  {frente:"Amazon Bedrock", reverso:"Servicio administrado para acceder a FM de varios proveedores vía API. Incluye Knowledge Bases (RAG), Guardrails, Agents y evaluación de modelos."},
+  {frente:"Amazon SageMaker AI", reverso:"Plataforma para construir, entrenar y desplegar modelos de ML en todo su ciclo de vida. Incluye Clarify, Model Monitor, Model Cards, JumpStart."},
+  {frente:"Bedrock Guardrails", reverso:"Barreras de protección que filtran contenido dañino, temas prohibidos, PII y refuerzan una IA responsable en aplicaciones GenAI."},
+  {frente:"SageMaker Clarify", reverso:"Detecta sesgo en datos y modelos, y ayuda con la explicabilidad de las predicciones."},
+  {frente:"Amazon Macie", reverso:"Usa ML para descubrir y proteger datos sensibles (PII) almacenados en Amazon S3."},
+  {frente:"AWS CloudTrail vs Config", reverso:"CloudTrail: registra QUIÉN hizo qué llamada de API (auditoría). Config: registra y evalúa la configuración de los recursos a lo largo del tiempo."},
+  {frente:"Amazon Q", reverso:"Asistente de IA generativa de AWS para empresas y desarrolladores (responder preguntas, generar código, resumir)."},
+  {frente:"Modelo de responsabilidad compartida", reverso:"AWS es responsable de la seguridad DE la nube (infraestructura); el cliente, de la seguridad EN la nube (datos, IAM, configuración)."},
+  {frente:"MCP (Model Context Protocol)", reverso:"Protocolo para conectar agentes de IA con herramientas y sistemas externos de forma estandarizada."},
+  {frente:"Provisioned Throughput (Bedrock)", reverso:"Capacidad de inferencia reservada para cargas altas/consistentes, con rendimiento garantizado (vs. pago por token bajo demanda)."}
+];
+
+const GLOSARIO = [
+  {t:"IA (Inteligencia Artificial)", en:"Artificial Intelligence", d:"Campo que crea sistemas capaces de realizar tareas que normalmente requieren inteligencia humana."},
+  {t:"ML (Aprendizaje automático)", en:"Machine Learning", d:"Subconjunto de la IA donde los sistemas aprenden patrones a partir de datos en lugar de reglas explícitas."},
+  {t:"Aprendizaje profundo", en:"Deep Learning", d:"ML basado en redes neuronales con muchas capas; base de la GenAI y la visión artificial moderna."},
+  {t:"Modelo fundacional", en:"Foundation Model (FM)", d:"Modelo grande preentrenado con datos amplios, adaptable a muchas tareas (base de la GenAI)."},
+  {t:"LLM", en:"Large Language Model", d:"Modelo de lenguaje de gran tamaño, típicamente basado en la arquitectura transformador."},
+  {t:"GenAI", en:"Generative AI", d:"IA que genera contenido nuevo: texto, imágenes, audio, video o código."},
+  {t:"Transformador", en:"Transformer", d:"Arquitectura de red neuronal con mecanismo de atención; base de los LLM modernos."},
+  {t:"Token", en:"Token", d:"Unidad mínima de texto que procesa un modelo; determina costo y latencia de la inferencia."},
+  {t:"Embedding", en:"Embedding", d:"Vector numérico que representa el significado de un dato; habilita búsqueda semántica y RAG."},
+  {t:"RAG", en:"Retrieval-Augmented Generation", d:"Técnica que recupera datos externos y los añade al prompt para respuestas fundamentadas y actuales."},
+  {t:"Inferencia", en:"Inference", d:"Proceso de usar un modelo entrenado para generar predicciones o respuestas."},
+  {t:"Fine-tuning", en:"Refinamiento", d:"Reentrenar un FM con datos propios para especializarlo en un dominio o tarea."},
+  {t:"Preentrenamiento", en:"Pre-training", d:"Entrenamiento inicial de un FM con grandes volúmenes de datos generales."},
+  {t:"Destilación", en:"Distillation", d:"Crear un modelo más pequeño y económico que imita a uno más grande."},
+  {t:"RLHF", en:"Reinforcement Learning from Human Feedback", d:"Refinar un modelo usando retroalimentación humana como señal de recompensa."},
+  {t:"Prompt engineering", en:"Ingeniería de peticiones", d:"Diseñar entradas (prompts) para obtener mejores respuestas del modelo."},
+  {t:"Temperatura", en:"Temperature", d:"Parámetro de inferencia que ajusta la aleatoriedad/creatividad de las respuestas."},
+  {t:"Alucinación", en:"Hallucination", d:"Salida falsa pero plausible generada por un FM."},
+  {t:"Guardrails", en:"Barreras de protección", d:"Controles que filtran contenido dañino y refuerzan políticas de uso responsable."},
+  {t:"Sesgo", en:"Bias", d:"Errores sistemáticos que pueden favorecer o perjudicar a ciertos grupos o resultados."},
+  {t:"Varianza", en:"Variance", d:"Sensibilidad del modelo a los datos de entrenamiento; alta varianza = overfitting."},
+  {t:"Overfitting", en:"Sobreajuste", d:"El modelo memoriza el entrenamiento y generaliza mal a datos nuevos."},
+  {t:"Underfitting", en:"Infraajuste", d:"El modelo es demasiado simple y no captura los patrones de los datos."},
+  {t:"Explicabilidad", en:"Explainability", d:"Capacidad de entender por qué un modelo tomó una decisión."},
+  {t:"Multimodal", en:"Multimodal", d:"Modelo que procesa/genera múltiples tipos de datos (texto, imagen, audio)."},
+  {t:"Modelo de difusión", en:"Diffusion model", d:"Tipo de modelo generativo usado para crear imágenes a partir de ruido."},
+  {t:"Inyección de prompts", en:"Prompt injection", d:"Ataque que manipula el prompt para que el modelo ignore sus instrucciones o revele datos."},
+  {t:"MLOps", en:"MLOps", d:"Prácticas para desplegar, monitorear y mantener modelos de ML en producción de forma confiable."},
+  {t:"ROI", en:"Return on Investment", d:"Métrica de negocio que mide el retorno económico de una inversión en IA."},
+  {t:"MCP", en:"Model Context Protocol", d:"Protocolo estándar para conectar agentes de IA con herramientas y datos externos."}
+];
+
+const SERVICIOS = [
+  {cat:"Machine Learning / IA", items:[
+    {n:"Amazon Bedrock", d:"Acceso administrado a modelos fundacionales vía API; incluye Knowledge Bases (RAG), Guardrails, Agents y evaluación de modelos."},
+    {n:"Amazon Bedrock AgentCore", d:"Plataforma para crear, desplegar y operar agentes de IA de forma segura y escalable."},
+    {n:"Amazon SageMaker AI", d:"Construir, entrenar, ajustar y desplegar modelos de ML en todo su ciclo de vida."},
+    {n:"SageMaker JumpStart", d:"Catálogo de modelos preentrenados y soluciones para empezar rápido."},
+    {n:"SageMaker Clarify", d:"Detecta sesgo en datos/modelos y aporta explicabilidad."},
+    {n:"SageMaker Model Monitor", d:"Monitorea modelos en producción (deriva de datos y calidad)."},
+    {n:"SageMaker Model Cards", d:"Documenta información y gobernanza de cada modelo."},
+    {n:"Amazon Q", d:"Asistente de IA generativa para empresas y desarrolladores."},
+    {n:"Amazon Comprehend", d:"NLP: análisis de sentimiento, entidades, idioma, temas y PII en texto."},
+    {n:"Amazon Transcribe", d:"Convierte voz a texto (reconocimiento de voz)."},
+    {n:"Amazon Translate", d:"Traducción automática entre idiomas."},
+    {n:"Amazon Polly", d:"Convierte texto a voz natural (text-to-speech)."},
+    {n:"Amazon Lex", d:"Crea chatbots y asistentes de voz conversacionales."},
+    {n:"Amazon Rekognition", d:"Análisis de imágenes y video (objetos, rostros, moderación)."},
+    {n:"Amazon Textract", d:"Extrae texto, formularios y tablas de documentos escaneados."},
+    {n:"Amazon Kendra", d:"Búsqueda empresarial inteligente basada en ML."},
+    {n:"Amazon Personalize", d:"Recomendaciones personalizadas en tiempo real."},
+    {n:"Amazon Nova", d:"Familia de modelos fundacionales propios de AWS (en Bedrock)."},
+    {n:"Amazon Augmented AI (A2I)", d:"Añade revisión humana a predicciones de ML."}
+  ]},
+  {cat:"Herramientas para desarrolladores", items:[
+    {n:"Kiro", d:"Herramienta de desarrollo asistida por IA."},
+    {n:"Strands Agents", d:"Marco para construir agentes de IA."}
+  ]},
+  {cat:"Base de datos (vector stores para RAG)", items:[
+    {n:"Amazon OpenSearch Service", d:"Búsqueda y almacenamiento de vectores/embeddings para RAG."},
+    {n:"Amazon Aurora", d:"Base de datos relacional; soporta vectores (PostgreSQL/pgvector)."},
+    {n:"Amazon Neptune", d:"Base de datos de grafos; admite embeddings/analítica de grafos."},
+    {n:"Amazon RDS (PostgreSQL)", d:"Base relacional administrada; pgvector para búsqueda vectorial."},
+    {n:"Amazon DynamoDB", d:"Base NoSQL de baja latencia y alta escala."}
+  ]},
+  {cat:"Seguridad, identidad y cumplimiento", items:[
+    {n:"AWS IAM", d:"Gestiona identidades, roles, políticas y permisos de acceso a recursos."},
+    {n:"AWS KMS", d:"Gestión de claves de cifrado para proteger datos en reposo."},
+    {n:"Amazon Macie", d:"Descubre y protege datos sensibles (PII) en Amazon S3 con ML."},
+    {n:"AWS Secrets Manager", d:"Almacena y rota secretos y credenciales de forma segura."},
+    {n:"Amazon Inspector", d:"Evaluación continua de vulnerabilidades en cargas de trabajo."},
+    {n:"AWS Audit Manager", d:"Automatiza la recopilación de evidencia para auditorías."},
+    {n:"AWS Artifact", d:"Acceso a informes de cumplimiento y acuerdos de AWS."}
+  ]},
+  {cat:"Administración y gobernanza", items:[
+    {n:"AWS CloudTrail", d:"Registra las llamadas de API (quién hizo qué) para auditoría."},
+    {n:"Amazon CloudWatch", d:"Monitoreo, métricas, logs y alarmas de recursos y apps."},
+    {n:"AWS Config", d:"Registra y evalúa la configuración de recursos y su conformidad."},
+    {n:"AWS Trusted Advisor", d:"Recomendaciones de buenas prácticas (costo, seguridad, rendimiento)."},
+    {n:"AWS Well-Architected Tool", d:"Evalúa cargas frente a las buenas prácticas del marco Well-Architected."}
+  ]},
+  {cat:"Cómputo, redes y almacenamiento", items:[
+    {n:"Amazon EC2", d:"Servidores virtuales; instancias con GPU para entrenamiento/inferencia."},
+    {n:"AWS Lambda", d:"Cómputo serverless para ejecutar código sin gestionar servidores."},
+    {n:"Amazon S3", d:"Almacenamiento de objetos; base para datos de entrenamiento y data lakes."},
+    {n:"Amazon S3 Glacier", d:"Almacenamiento de archivado de bajo costo a largo plazo."},
+    {n:"AWS PrivateLink", d:"Conectividad privada a servicios sin exponer tráfico a Internet."},
+    {n:"Amazon VPC", d:"Red virtual aislada para tus recursos en AWS."},
+    {n:"Amazon CloudFront", d:"Red de entrega de contenido (CDN) de baja latencia."}
+  ]},
+  {cat:"Análisis y datos", items:[
+    {n:"AWS Glue", d:"ETL sin servidor para preparar e integrar datos."},
+    {n:"AWS Glue DataBrew", d:"Preparación visual de datos sin código."},
+    {n:"Amazon EMR", d:"Big data con Spark/Hadoop administrado."},
+    {n:"Amazon Redshift", d:"Data warehouse para analítica a gran escala."},
+    {n:"AWS Lake Formation", d:"Construye y gobierna data lakes de forma segura."},
+    {n:"Amazon QuickSight", d:"Business intelligence y paneles con capacidades de IA."}
+  ]},
+  {cat:"Administración financiera", items:[
+    {n:"AWS Budgets", d:"Presupuestos y alertas de costos."},
+    {n:"AWS Cost Explorer", d:"Analiza y visualiza el gasto en AWS."}
+  ]}
+];
+
+/* Banco de preguntas. Cada pregunta:
+   { id, dominio, tarea, tipo:'single'|'multi', stem, opciones:[...], correctas:[idx...], explain } */
+const PREGUNTAS = [
+  /* ---------- DOMINIO 1 (20%) ---------- */
+  {id:"d1-1",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"¿Cuál de las siguientes afirmaciones describe correctamente la relación entre IA, ML y aprendizaje profundo?",
+   opciones:["El aprendizaje profundo contiene al ML, que a su vez contiene a la IA","La IA es el campo más amplio; el ML es un subconjunto de la IA y el aprendizaje profundo es un subconjunto del ML","IA, ML y aprendizaje profundo son sinónimos","El ML es más amplio que la IA porque usa datos"],
+   correctas:[1],
+   explain:"La jerarquía es IA ⊃ ML ⊃ Deep Learning. La IA es el campo amplio, el ML aprende de datos y el aprendizaje profundo usa redes neuronales profundas."},
+  {id:"d1-2",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"Una empresa necesita generar predicciones sobre millones de registros históricos durante la noche, sin requisitos de respuesta inmediata. ¿Qué tipo de inferencia es más adecuado?",
+   opciones:["Inferencia en tiempo real","Inferencia por lotes (batch)","Inferencia sin servidor con baja latencia","Inferencia síncrona"],
+   correctas:[1],
+   explain:"La inferencia por lotes procesa grandes volúmenes de datos de forma programada cuando no se necesita respuesta inmediata, optimizando costo."},
+  {id:"d1-3",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"¿Qué tipo de aprendizaje automático utiliza datos ETIQUETADOS para entrenar el modelo?",
+   opciones:["Aprendizaje no supervisado","Aprendizaje por refuerzo","Aprendizaje supervisado","Aprendizaje por transferencia"],
+   correctas:[2],
+   explain:"El aprendizaje supervisado usa datos etiquetados (entrada + salida conocida) para tareas de clasificación y regresión."},
+  {id:"d1-4",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"Un equipo quiere agrupar clientes en segmentos similares sin tener etiquetas previas. ¿Qué técnica corresponde?",
+   opciones:["Clasificación","Regresión","Clustering (agrupación)","Detección de objetos"],
+   correctas:[2],
+   explain:"El clustering es una técnica de aprendizaje no supervisado que agrupa datos similares sin etiquetas previas."},
+  {id:"d1-5",dominio:"1",tarea:"1.1",tipo:"multi",
+   stem:"¿Cuáles de los siguientes son ejemplos de datos NO estructurados? (Elige DOS.)",
+   opciones:["Una tabla de una base de datos relacional","Imágenes de productos","Una hoja de cálculo con columnas definidas","Correos electrónicos en texto libre","Una serie temporal en formato tabular"],
+   correctas:[1,3],
+   explain:"Las imágenes y el texto libre (correos) son datos no estructurados. Tablas, hojas de cálculo y series tabulares son datos estructurados."},
+  {id:"d1-6",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"En el contexto de ML, ¿qué diferencia hay entre 'entrenamiento' e 'inferencia'?",
+   opciones:["Son lo mismo con distinto nombre","El entrenamiento es cuando el modelo aprende de los datos; la inferencia es cuando usa lo aprendido para predecir","La inferencia ocurre antes del entrenamiento","El entrenamiento solo aplica a modelos generativos"],
+   correctas:[1],
+   explain:"El entrenamiento es la fase de aprendizaje a partir de datos; la inferencia es el uso del modelo ya entrenado para generar predicciones sobre datos nuevos."},
+  {id:"d1-7",dominio:"1",tarea:"1.2",tipo:"single",
+   stem:"¿En cuál de los siguientes escenarios una solución de IA/ML NO sería la opción más apropiada?",
+   opciones:["Detectar fraude en transacciones con patrones cambiantes","Recomendar productos según el comportamiento del usuario","Calcular el total exacto de una factura sumando importes fijos","Predecir la demanda de inventario"],
+   correctas:[2],
+   explain:"Cuando se requiere un resultado exacto y determinístico basado en reglas fijas (sumar importes), un cálculo tradicional es mejor que una predicción de ML."},
+  {id:"d1-8",dominio:"1",tarea:"1.2",tipo:"single",
+   stem:"Una empresa quiere convertir automáticamente grabaciones de llamadas de servicio al cliente en texto. ¿Qué servicio de AWS es el más adecuado?",
+   opciones:["Amazon Polly","Amazon Transcribe","Amazon Translate","Amazon Comprehend"],
+   correctas:[1],
+   explain:"Amazon Transcribe convierte voz a texto (speech-to-text). Polly hace lo contrario (texto a voz), Translate traduce y Comprehend analiza texto."},
+  {id:"d1-9",dominio:"1",tarea:"1.2",tipo:"single",
+   stem:"¿Qué servicio de AWS usarías para analizar el sentimiento y extraer entidades de reseñas de clientes en texto?",
+   opciones:["Amazon Comprehend","Amazon Lex","Amazon Rekognition","Amazon Polly"],
+   correctas:[0],
+   explain:"Amazon Comprehend es el servicio de NLP para análisis de sentimiento, detección de entidades, idioma y temas."},
+  {id:"d1-10",dominio:"1",tarea:"1.2",tipo:"single",
+   stem:"Se necesita predecir el precio de venta de una casa (un valor numérico continuo) a partir de sus características. ¿Qué técnica de ML corresponde?",
+   opciones:["Clasificación","Regresión","Clustering","Reducción de dimensionalidad"],
+   correctas:[1],
+   explain:"La regresión predice valores numéricos continuos (como precios). La clasificación predice categorías discretas."},
+  {id:"d1-11",dominio:"1",tarea:"1.2",tipo:"multi",
+   stem:"¿Cuáles son ejemplos de aplicaciones reales de IA/ML? (Elige DOS.)",
+   opciones:["Detección de fraude","Ordenar archivos por fecha de creación","Sistemas de recomendación","Formatear texto a mayúsculas"],
+   correctas:[0,2],
+   explain:"La detección de fraude y los sistemas de recomendación son aplicaciones clásicas de IA/ML. Ordenar por fecha o formatear texto son operaciones deterministas simples."},
+  {id:"d1-12",dominio:"1",tarea:"1.2",tipo:"single",
+   stem:"Un caso de uso requiere alta explicabilidad y cumplimiento regulatorio estricto sobre un conjunto de datos tabulares pequeño. ¿Qué enfoque suele ser más apropiado?",
+   opciones:["Un modelo fundacional (FM) de gran tamaño","Un modelo de ML tradicional e interpretable","Un modelo de difusión","Un LLM multimodal"],
+   correctas:[1],
+   explain:"Cuando se necesita explicabilidad y control regulatorio con datos tabulares, un modelo de ML tradicional (p. ej. árboles/regresión) suele ser más apropiado que un FM de caja negra."},
+  {id:"d1-13",dominio:"1",tarea:"1.3",tipo:"single",
+   stem:"¿Cuál es una ventaja de consumir un modelo mediante una API administrada (como Amazon Bedrock) en lugar de autoalojarlo?",
+   opciones:["Requiere gestionar manualmente los servidores GPU","Elimina la necesidad de administrar la infraestructura subyacente","Impide escalar la solución","Obliga a entrenar el modelo desde cero"],
+   correctas:[1],
+   explain:"Una API administrada abstrae la infraestructura: no gestionas servidores ni escalado, solo consumes el modelo vía API."},
+  {id:"d1-14",dominio:"1",tarea:"1.3",tipo:"multi",
+   stem:"¿Cuáles son métricas para evaluar el RENDIMIENTO de un modelo de clasificación? (Elige DOS.)",
+   opciones:["Precisión (precision)","Retorno de la inversión (ROI)","Puntuación F1","Costo por usuario"],
+   correctas:[0,2],
+   explain:"Precision y F1 son métricas técnicas del modelo. ROI y costo por usuario son métricas de negocio, no de rendimiento del modelo."},
+  {id:"d1-15",dominio:"1",tarea:"1.3",tipo:"single",
+   stem:"En MLOps, ¿por qué es importante el monitoreo de modelos en producción?",
+   opciones:["Para eliminar la necesidad de datos","Para detectar la degradación del rendimiento y decidir cuándo reentrenar","Para evitar por completo las pruebas","Porque los modelos nunca cambian su comportamiento"],
+   correctas:[1],
+   explain:"El monitoreo detecta deriva de datos y caídas de rendimiento, permitiendo reentrenar el modelo cuando es necesario."},
+  {id:"d1-16",dominio:"1",tarea:"1.3",tipo:"single",
+   stem:"¿Qué describe mejor una 'canalización (pipeline) de ML'?",
+   opciones:["Un único script que solo entrena el modelo","La secuencia de etapas: datos, preparación, entrenamiento, evaluación, despliegue y monitoreo","Un servicio de almacenamiento de objetos","Una técnica de prompting"],
+   correctas:[1],
+   explain:"Una canalización de ML abarca todas las etapas del ciclo de vida, desde la recolección de datos hasta el despliegue y el monitoreo."},
+  {id:"d1-17",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"¿Qué es un modelo de lenguaje de gran tamaño (LLM)?",
+   opciones:["Un modelo de visión artificial para clasificar imágenes","Un modelo entrenado con enormes cantidades de texto, capaz de comprender y generar lenguaje natural","Una base de datos vectorial","Un algoritmo de clustering"],
+   correctas:[1],
+   explain:"Un LLM es un modelo (normalmente basado en transformadores) entrenado con grandes corpus de texto para comprender y generar lenguaje natural."},
+  {id:"d1-18",dominio:"1",tarea:"1.1",tipo:"single",
+   stem:"¿Qué caracteriza a la 'IA agéntica' frente a la GenAI tradicional?",
+   opciones:["Solo genera imágenes","Usa un modelo para planificar y ejecutar acciones de forma autónoma utilizando herramientas","No requiere ningún modelo","Solo funciona sin conexión a Internet"],
+   correctas:[1],
+   explain:"La IA agéntica va más allá de generar contenido: planifica, razona y ejecuta acciones de varios pasos usando herramientas y APIs externas de forma autónoma."},
+  /* ---------- DOMINIO 2 (24%) ---------- */
+  {id:"d2-1",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"En el contexto de la IA generativa, ¿qué es un 'token'?",
+   opciones:["Una clave de seguridad de la API","Una unidad básica de texto (palabra o fragmento) que procesa el modelo","Un tipo de base de datos vectorial","Una métrica de evaluación de resúmenes"],
+   correctas:[1],
+   explain:"Un token es la unidad mínima de texto que procesa un LLM. El precio de los FM se basa en los tokens de entrada y salida."},
+  {id:"d2-2",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"¿Qué son los 'embeddings' en la IA generativa?",
+   opciones:["Reglas fijas de negocio","Representaciones numéricas (vectores) del significado de los datos","Un tipo de GPU","Instrucciones de un prompt"],
+   correctas:[1],
+   explain:"Los embeddings son vectores numéricos que capturan el significado semántico de texto o imágenes; se usan en búsqueda semántica y RAG."},
+  {id:"d2-3",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"¿Qué tipo de modelo se usa típicamente para generar imágenes a partir de una descripción de texto?",
+   opciones:["Modelo de regresión lineal","Modelo de difusión","Árbol de decisión","Modelo de clustering"],
+   correctas:[1],
+   explain:"Los modelos de difusión generan imágenes partiendo de ruido y refinándolo; son la base de muchos generadores de imágenes."},
+  {id:"d2-4",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"Ordena correctamente el ciclo de vida de un modelo fundacional (FM):",
+   opciones:["Refinamiento → selección de datos → despliegue → evaluación","Selección de datos → preentrenamiento → refinamiento → evaluación → implementación","Implementación → preentrenamiento → selección de datos → evaluación","Evaluación → despliegue → preentrenamiento → selección de datos"],
+   correctas:[1],
+   explain:"El ciclo del FM va: selección de datos → selección del modelo → preentrenamiento → refinamiento → evaluación → implementación → retroalimentación."},
+  {id:"d2-5",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"Un modelo capaz de procesar y combinar texto, imágenes y audio se describe como:",
+   opciones:["Unimodal","Multimodal","Determinista","Supervisado"],
+   correctas:[1],
+   explain:"Un modelo multimodal maneja múltiples tipos de datos (texto, imagen, audio) simultáneamente."},
+  {id:"d2-6",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"¿Cuál es la función principal del Model Context Protocol (MCP) en la IA agéntica?",
+   opciones:["Cifrar los datos en reposo","Estandarizar la conexión de agentes de IA con herramientas y sistemas externos","Reducir el tamaño del modelo","Etiquetar datos de entrenamiento"],
+   correctas:[1],
+   explain:"El MCP es un protocolo que estandariza cómo los agentes de IA se conectan a herramientas, datos y sistemas externos."},
+  {id:"d2-7",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"El modelo de precios de los FM basado en tokens implica que:",
+   opciones:["El costo es fijo sin importar el uso","A mayor cantidad de tokens de entrada y salida, mayor costo y latencia","Solo se cobran los tokens de salida","Los tokens no afectan el rendimiento"],
+   correctas:[1],
+   explain:"Con precios por token se paga por tokens de entrada + salida; prompts y respuestas más largos aumentan costo y latencia."},
+  {id:"d2-8",dominio:"2",tarea:"2.2",tipo:"multi",
+   stem:"¿Cuáles son ventajas típicas de la IA generativa? (Elige DOS.)",
+   opciones:["Determinismo perfecto en cada respuesta","Adaptabilidad a muchas tareas","Capacidad de generar contenido nuevo","Ausencia total de sesgo"],
+   correctas:[1,2],
+   explain:"La GenAI destaca por su adaptabilidad y capacidad de generar contenido. NO garantiza determinismo ni ausencia de sesgo."},
+  {id:"d2-9",dominio:"2",tarea:"2.2",tipo:"single",
+   stem:"Cuando un modelo generativo produce información falsa pero que suena convincente, esto se llama:",
+   opciones:["Overfitting","Alucinación","Regularización","Inferencia por lotes"],
+   correctas:[1],
+   explain:"Una alucinación es una salida inventada pero plausible. Se mitiga con RAG (grounding), validación de salidas y guardrails."},
+  {id:"d2-10",dominio:"2",tarea:"2.2",tipo:"multi",
+   stem:"¿Cuáles son desventajas o limitaciones de las soluciones de IA generativa? (Elige DOS.)",
+   opciones:["Alucinaciones","Baja interpretabilidad","Costo cero de inferencia","Resultados siempre exactos y verificados"],
+   correctas:[0,1],
+   explain:"Entre las limitaciones están las alucinaciones, la baja interpretabilidad, la inexactitud y la falta de determinismo."},
+  {id:"d2-11",dominio:"2",tarea:"2.2",tipo:"multi",
+   stem:"¿Qué factores deberías considerar al seleccionar un modelo de IA generativa? (Elige DOS.)",
+   opciones:["El color del logo del proveedor","La latencia y el costo","El número de empleados de tu empresa","Los requisitos de cumplimiento y desempeño"],
+   correctas:[1,3],
+   explain:"Al elegir un modelo se consideran tipo, desempeño, capacidades, restricciones, cumplimiento, costo, latencia y complejidad."},
+  {id:"d2-12",dominio:"2",tarea:"2.2",tipo:"single",
+   stem:"Una empresa quiere medir el valor de negocio de su aplicación de GenAI. ¿Cuál de estas es una métrica de negocio adecuada?",
+   opciones:["La temperatura del modelo","El retorno de la inversión (ROI)","El número de capas de la red neuronal","La cantidad de tokens del vocabulario"],
+   correctas:[1],
+   explain:"El ROI, la tasa de conversión, la eficiencia y el CLV son métricas de negocio para evaluar el valor de una aplicación de GenAI."},
+  {id:"d2-13",dominio:"2",tarea:"2.3",tipo:"single",
+   stem:"¿Qué servicio de AWS ofrece acceso a modelos fundacionales de varios proveedores a través de una única API administrada?",
+   opciones:["Amazon EC2","Amazon Bedrock","Amazon S3","AWS Glue"],
+   correctas:[1],
+   explain:"Amazon Bedrock proporciona acceso administrado, vía API, a FM de múltiples proveedores, además de Knowledge Bases, Guardrails y Agents."},
+  {id:"d2-14",dominio:"2",tarea:"2.3",tipo:"single",
+   stem:"Un desarrollador quiere empezar rápido con modelos preconstruidos y soluciones de ML listas para usar. ¿Qué opción de AWS es la más adecuada?",
+   opciones:["Amazon SageMaker JumpStart","Amazon Macie","AWS CloudTrail","Amazon VPC"],
+   correctas:[0],
+   explain:"SageMaker JumpStart ofrece modelos preentrenados y soluciones listas para acelerar el desarrollo."},
+  {id:"d2-15",dominio:"2",tarea:"2.3",tipo:"multi",
+   stem:"¿Cuáles son beneficios de usar los servicios de IA generativa administrados de AWS? (Elige DOS.)",
+   opciones:["Menor barrera de entrada y mayor rapidez de comercialización","Necesidad de construir toda la infraestructura desde cero","Rentabilidad y eficiencia","Eliminación de todo cumplimiento normativo"],
+   correctas:[0,2],
+   explain:"Los servicios administrados de AWS reducen la barrera de entrada, aceleran el time-to-market y aportan eficiencia y rentabilidad."},
+  {id:"d2-16",dominio:"2",tarea:"2.3",tipo:"single",
+   stem:"Una carga de trabajo de inferencia con GenAI es alta y constante, y necesita rendimiento garantizado. ¿Qué opción de Amazon Bedrock conviene?",
+   opciones:["Pago por token bajo demanda","Rendimiento aprovisionado (provisioned throughput)","Almacenamiento Glacier","Inferencia por lotes en S3"],
+   correctas:[1],
+   explain:"El rendimiento aprovisionado reserva capacidad de inferencia con rendimiento garantizado, ideal para cargas altas y consistentes."},
+  {id:"d2-17",dominio:"2",tarea:"2.3",tipo:"single",
+   stem:"¿Cuál es un beneficio de la infraestructura de AWS para aplicaciones de IA generativa?",
+   opciones:["Elimina la necesidad de datos","Ofrece seguridad, cumplimiento y protección de datos","Garantiza que el modelo nunca alucine","Reemplaza la ingeniería de prompts"],
+   correctas:[1],
+   explain:"La infraestructura de AWS aporta seguridad, cumplimiento, responsabilidad y protección de datos a las aplicaciones GenAI."},
+  {id:"d2-18",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"¿Qué describe la 'ingeniería de contexto' en aplicaciones basadas en FM?",
+   opciones:["Reentrenar el modelo desde cero","Proporcionar el contexto adecuado (documentos, instrucciones, ejemplos) para mejorar las respuestas","Cifrar las respuestas del modelo","Reducir la temperatura a cero permanentemente"],
+   correctas:[1],
+   explain:"La ingeniería de contexto consiste en aportar la información y las instrucciones adecuadas al modelo para obtener mejores respuestas, sin reentrenarlo."},
+  {id:"d2-19",dominio:"2",tarea:"2.1",tipo:"multi",
+   stem:"¿Cuáles son casos de uso apropiados para la IA generativa? (Elige DOS.)",
+   opciones:["Creación de resúmenes de documentos","Cálculo contable exacto e inmutable","Generación de código","Conteo determinista de inventario"],
+   correctas:[0,2],
+   explain:"Resumir documentos y generar código son casos de uso de GenAI. Los cálculos exactos y deterministas se resuelven mejor con software tradicional."},
+  {id:"d2-20",dominio:"2",tarea:"2.3",tipo:"single",
+   stem:"¿Qué servicio de AWS es un asistente de IA generativa para empresas y desarrolladores (responde preguntas, resume, genera código)?",
+   opciones:["Amazon Q","Amazon Neptune","AWS Config","Amazon Polly"],
+   correctas:[0],
+   explain:"Amazon Q es el asistente de IA generativa de AWS orientado a empresas y desarrolladores."},
+  {id:"d2-21",dominio:"2",tarea:"2.2",tipo:"single",
+   stem:"¿Por qué la falta de determinismo es una limitación relevante de la GenAI en algunos casos empresariales?",
+   opciones:["Porque hace que el modelo sea más rápido","Porque la misma entrada puede producir salidas distintas, lo que dificulta resultados 100% reproducibles","Porque elimina la necesidad de evaluación","Porque reduce el costo por token"],
+   correctas:[1],
+   explain:"La falta de determinismo implica que una misma consulta puede dar respuestas diferentes, complicando escenarios que exigen reproducibilidad exacta."},
+  {id:"d2-22",dominio:"2",tarea:"2.1",tipo:"single",
+   stem:"¿Qué arquitectura de red neuronal es la base de los LLM modernos?",
+   opciones:["Redes convolucionales (CNN)","Transformadores (transformers)","Árboles de decisión","Máquinas de vectores de soporte (SVM)"],
+   correctas:[1],
+   explain:"Los LLM modernos se basan en la arquitectura transformador, que usa mecanismos de atención para procesar secuencias de texto."},
+  /* ---------- DOMINIO 3 (28%) ---------- */
+  {id:"d3-1",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"Una aplicación necesita que el FM responda con información actualizada de documentos internos de la empresa, sin reentrenar el modelo. ¿Qué enfoque es el más adecuado?",
+   opciones:["Fine-tuning completo","Generación aumentada por recuperación (RAG)","Preentrenamiento desde cero","Aumentar la temperatura"],
+   correctas:[1],
+   explain:"RAG recupera datos de una base de conocimiento externa y los añade al prompt, dando respuestas actualizadas y fundamentadas sin reentrenar el modelo."},
+  {id:"d3-2",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"¿Qué efecto tiene AUMENTAR el parámetro de temperatura en un FM?",
+   opciones:["Respuestas más deterministas y enfocadas","Respuestas más aleatorias y creativas","Menor costo por token","Mayor longitud de contexto"],
+   correctas:[1],
+   explain:"Una temperatura alta aumenta la aleatoriedad y la creatividad; una temperatura baja hace las respuestas más deterministas y enfocadas."},
+  {id:"d3-3",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"¿Qué servicio de AWS facilita implementar RAG con bases de conocimiento administradas?",
+   opciones:["Bases de conocimiento de Amazon Bedrock","Amazon CloudFront","AWS Budgets","Amazon Polly"],
+   correctas:[0],
+   explain:"Las Bases de conocimiento de Amazon Bedrock (Knowledge Bases) administran el flujo de RAG: ingesta, embeddings y recuperación."},
+  {id:"d3-4",dominio:"3",tarea:"3.1",tipo:"multi",
+   stem:"¿Cuáles de estos servicios pueden usarse como base de datos vectorial para almacenar embeddings? (Elige DOS.)",
+   opciones:["Amazon OpenSearch Service","Amazon Polly","Amazon RDS para PostgreSQL","AWS CloudTrail"],
+   correctas:[0,2],
+   explain:"OpenSearch Service y RDS para PostgreSQL (pgvector) pueden almacenar embeddings. También Aurora y Neptune. Polly y CloudTrail no son vector stores."},
+  {id:"d3-5",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"Ordenando de MENOR a MAYOR costo/esfuerzo, ¿cuál es la secuencia correcta de técnicas de personalización?",
+   opciones:["Preentrenamiento → fine-tuning → RAG → prompt engineering","Prompt engineering → RAG → fine-tuning → preentrenamiento","Fine-tuning → prompt engineering → preentrenamiento → RAG","RAG → preentrenamiento → prompt engineering → fine-tuning"],
+   correctas:[1],
+   explain:"De menor a mayor costo: prompt engineering / in-context learning → RAG → fine-tuning → preentrenamiento continuo → preentrenamiento desde cero."},
+  {id:"d3-6",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"¿Qué técnica crea un modelo más pequeño y económico que conserva gran parte del rendimiento de un modelo grande?",
+   opciones:["Destilación de modelos","Aumento de temperatura","Prompt injection","Clustering"],
+   correctas:[0],
+   explain:"La destilación transfiere el conocimiento de un modelo grande a uno más pequeño y barato de ejecutar."},
+  {id:"d3-7",dominio:"3",tarea:"3.1",tipo:"multi",
+   stem:"Al seleccionar un modelo fundacional, ¿qué criterios son relevantes? (Elige DOS.)",
+   opciones:["La modalidad y la latencia","El color de la interfaz","El costo y la longitud de contexto","El número de oficinas de la empresa"],
+   correctas:[0,2],
+   explain:"Criterios de selección de FM: costo, modalidad, latencia, multilingüismo, tamaño, complejidad, personalización, longitud de E/S y prompt caching."},
+  {id:"d3-8",dominio:"3",tarea:"3.2",tipo:"single",
+   stem:"¿Qué técnica de ingeniería de peticiones consiste en pedir al modelo que razone paso a paso?",
+   opciones:["Zero-shot","Cadena de pensamiento (chain-of-thought)","Prompt injection","Destilación"],
+   correctas:[1],
+   explain:"La cadena de pensamiento (CoT) pide al modelo mostrar su razonamiento paso a paso, mejorando tareas de lógica y matemáticas."},
+  {id:"d3-9",dominio:"3",tarea:"3.2",tipo:"single",
+   stem:"Incluir VARIOS ejemplos dentro del prompt para guiar al modelo se conoce como:",
+   opciones:["Zero-shot","One-shot","Few-shot","Fine-tuning"],
+   correctas:[2],
+   explain:"Few-shot incluye varios ejemplos en el prompt. Zero-shot no usa ejemplos y one-shot usa uno solo."},
+  {id:"d3-10",dominio:"3",tarea:"3.2",tipo:"single",
+   stem:"Un atacante introduce instrucciones maliciosas para que el modelo ignore sus reglas y revele información. ¿Qué riesgo describe esto?",
+   opciones:["Inyección de prompts (prompt injection)","Overfitting","Reducción de dimensionalidad","Inferencia por lotes"],
+   correctas:[0],
+   explain:"La inyección de prompts manipula la entrada para que el modelo ignore sus instrucciones o filtre datos. Relacionados: jailbreak, hijacking, envenenamiento."},
+  {id:"d3-11",dominio:"3",tarea:"3.2",tipo:"multi",
+   stem:"¿Cuáles son buenas prácticas de ingeniería de peticiones? (Elige DOS.)",
+   opciones:["Ser específico y conciso","Usar prompts ambiguos a propósito","Experimentar e iterar el prompt","Evitar cualquier instrucción"],
+   correctas:[0,2],
+   explain:"Las buenas prácticas incluyen especificidad, concisión, experimentación iterativa y uso de guardrails."},
+  {id:"d3-12",dominio:"3",tarea:"3.2",tipo:"single",
+   stem:"¿Qué característica de Amazon Bedrock ayuda a versionar y administrar prompts?",
+   opciones:["Amazon Bedrock Prompt Management","Amazon Macie","AWS Artifact","Amazon Rekognition"],
+   correctas:[0],
+   explain:"Amazon Bedrock Prompt Management permite crear, versionar y gestionar prompts de forma centralizada."},
+  {id:"d3-13",dominio:"3",tarea:"3.2",tipo:"single",
+   stem:"En el diseño de un prompt, la parte que indica al modelo QUÉ tarea realizar se llama:",
+   opciones:["Contexto","Instrucción","Embedding","Token"],
+   correctas:[1],
+   explain:"La instrucción define la tarea a realizar. El contexto aporta información de fondo, y las peticiones negativas indican qué evitar."},
+  {id:"d3-14",dominio:"3",tarea:"3.3",tipo:"single",
+   stem:"¿Qué es el fine-tuning (refinamiento) de un modelo fundacional?",
+   opciones:["Ajustar la temperatura durante la inferencia","Reentrenar el FM con datos propios para especializarlo en una tarea o dominio","Comprimir el modelo eliminando capas al azar","Cifrar los pesos del modelo"],
+   correctas:[1],
+   explain:"El fine-tuning ajusta un FM preentrenado usando datos específicos para especializarlo en un dominio o tarea."},
+  {id:"d3-15",dominio:"3",tarea:"3.3",tipo:"single",
+   stem:"¿Qué es RLHF en el entrenamiento de modelos?",
+   opciones:["Un tipo de base de datos vectorial","Aprendizaje por refuerzo a partir de retroalimentación humana","Una métrica de traducción","Un algoritmo de clustering"],
+   correctas:[1],
+   explain:"RLHF (Reinforcement Learning from Human Feedback) refina el modelo usando la retroalimentación humana como señal de recompensa, alineándolo con las preferencias humanas."},
+  {id:"d3-16",dominio:"3",tarea:"3.3",tipo:"multi",
+   stem:"Al preparar datos para refinar (fine-tune) un FM, ¿qué aspectos son importantes? (Elige DOS.)",
+   opciones:["El etiquetado y la representatividad de los datos","Que los datos estén desactualizados","La gobernanza y calidad de los datos","Usar el mínimo posible de datos irrelevantes"],
+   correctas:[0,2],
+   explain:"La preparación de datos para fine-tuning requiere buena selección, gobernanza, tamaño adecuado, etiquetado y representatividad."},
+  {id:"d3-17",dominio:"3",tarea:"3.3",tipo:"single",
+   stem:"Continuar entrenando un FM con grandes volúmenes de datos de un dominio específico, sin etiquetas de tarea, se denomina:",
+   opciones:["Preentrenamiento continuo","Zero-shot prompting","Destilación","RAG"],
+   correctas:[0],
+   explain:"El preentrenamiento continuo sigue entrenando el modelo con datos de dominio para adaptarlo, antes o en lugar de un fine-tuning por instrucciones."},
+  {id:"d3-18",dominio:"3",tarea:"3.4",tipo:"single",
+   stem:"¿Qué métrica se utiliza principalmente para evaluar la calidad de RESÚMENES generados?",
+   opciones:["BLEU","ROUGE","F1 de clasificación","RMSE"],
+   correctas:[1],
+   explain:"ROUGE evalúa resúmenes comparando la superposición con referencias. BLEU se usa para traducción automática."},
+  {id:"d3-19",dominio:"3",tarea:"3.4",tipo:"single",
+   stem:"¿Qué métrica es la más adecuada para evaluar la calidad de una TRADUCCIÓN automática?",
+   opciones:["BLEU","ROUGE","Recall","Silhouette"],
+   correctas:[0],
+   explain:"BLEU (Bilingual Evaluation Understudy) es la métrica estándar para evaluar traducción automática."},
+  {id:"d3-20",dominio:"3",tarea:"3.4",tipo:"single",
+   stem:"¿Qué enfoque de evaluación consiste en usar otro modelo de lenguaje para calificar las respuestas de un FM?",
+   opciones:["LLM como juez (LLM-as-a-judge)","Regresión lineal","Inferencia por lotes","Prompt injection"],
+   correctas:[0],
+   explain:"'LLM como juez' emplea un LLM para evaluar/calificar las salidas de otro modelo, útil cuando no hay una métrica automática clara."},
+  {id:"d3-21",dominio:"3",tarea:"3.4",tipo:"multi",
+   stem:"¿Qué enfoques sirven para evaluar el rendimiento de un FM? (Elige DOS.)",
+   opciones:["Evaluación humana","Cambiar la región de AWS","Conjuntos de datos de referencia (benchmarks)","Aumentar el número de tokens de salida"],
+   correctas:[0,2],
+   explain:"El rendimiento de un FM se evalúa con evaluación humana, benchmarks/datasets de referencia y herramientas como la evaluación de modelos de Amazon Bedrock."},
+  {id:"d3-22",dominio:"3",tarea:"3.4",tipo:"single",
+   stem:"Al evaluar una aplicación construida con un FM (no solo el modelo), ¿qué se debe medir?",
+   opciones:["Únicamente el número de parámetros del modelo","El rendimiento de todo el sistema: RAG, agentes y flujos de trabajo","Solo la temperatura configurada","El costo de la factura de S3"],
+   correctas:[1],
+   explain:"Evaluar apps con FM implica medir el sistema completo (RAG, agentes, flujos), con métricas como tasa de finalización de tareas y satisfacción del usuario."},
+  {id:"d3-23",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"¿Qué es un 'agente de IA' en el contexto de los modelos fundacionales?",
+   opciones:["Un servicio de almacenamiento","Un sistema que usa un FM para razonar, invocar herramientas/APIs y completar tareas de varios pasos","Una métrica de evaluación","Un tipo de cifrado"],
+   correctas:[1],
+   explain:"Un agente de IA usa un FM para planificar, decidir y ejecutar acciones invocando herramientas y APIs para completar tareas complejas."},
+  {id:"d3-24",dominio:"3",tarea:"3.1",tipo:"single",
+   stem:"El 'almacenamiento en caché de peticiones' (prompt caching) ayuda principalmente a:",
+   opciones:["Aumentar la temperatura","Reducir costo y latencia al reutilizar partes repetidas del prompt","Eliminar la necesidad de embeddings","Etiquetar datos automáticamente"],
+   correctas:[1],
+   explain:"El prompt caching reutiliza porciones repetidas de contexto entre solicitudes, reduciendo el costo y la latencia de la inferencia."},
+  {id:"d3-25",dominio:"3",tarea:"3.2",tipo:"single",
+   stem:"¿Qué es una 'petición negativa' (negative prompt) en la ingeniería de peticiones?",
+   opciones:["Un prompt con sentimiento negativo","Una instrucción que indica al modelo qué NO incluir o evitar","Un prompt sin instrucciones","Un error de sintaxis"],
+   correctas:[1],
+   explain:"Una petición negativa especifica lo que el modelo debe evitar generar, ayudando a controlar la salida."},
+  {id:"d3-26",dominio:"3",tarea:"3.3",tipo:"single",
+   stem:"¿Cuál de estas opciones es un método de refinamiento (fine-tuning) de un FM?",
+   opciones:["Ajuste por instrucciones (instruction tuning)","Aumentar la resolución de las imágenes","Cambiar la zona de disponibilidad","Comprimir los logs de CloudTrail"],
+   correctas:[0],
+   explain:"El ajuste por instrucciones, la adaptación de dominio y la transferencia de aprendizaje son métodos de fine-tuning de un FM."},
+  /* ---------- DOMINIO 4 (14%) ---------- */
+  {id:"d4-1",dominio:"4",tarea:"4.1",tipo:"multi",
+   stem:"¿Cuáles son características de una IA responsable? (Elige DOS.)",
+   opciones:["Equidad (fairness)","Maximizar el sesgo","Solidez y seguridad","Opacidad total"],
+   correctas:[0,2],
+   explain:"La IA responsable busca equidad, inclusividad, solidez, seguridad, veracidad y control del sesgo."},
+  {id:"d4-2",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"¿Qué herramienta de AWS permite filtrar contenido dañino, temas prohibidos y datos sensibles en aplicaciones de GenAI?",
+   opciones:["Amazon Bedrock Guardrails","Amazon CloudFront","AWS Budgets","Amazon EC2"],
+   correctas:[0],
+   explain:"Las Barreras de protección de Amazon Bedrock (Guardrails) filtran contenido dañino, temas y PII, reforzando la IA responsable."},
+  {id:"d4-3",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"Un modelo funciona muy bien con los datos de entrenamiento pero falla con datos nuevos. ¿Qué problema es?",
+   opciones:["Underfitting (infraajuste)","Overfitting (sobreajuste)","Falta de tokens","Baja temperatura"],
+   correctas:[1],
+   explain:"El overfitting ocurre cuando el modelo memoriza el entrenamiento (alta varianza) y generaliza mal a datos nuevos."},
+  {id:"d4-4",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"Un modelo demasiado simple que no logra capturar los patrones ni siquiera en el entrenamiento presenta:",
+   opciones:["Overfitting","Underfitting","Alta varianza","Prompt injection"],
+   correctas:[1],
+   explain:"El underfitting (alto sesgo) ocurre cuando el modelo es demasiado simple y no aprende los patrones de los datos."},
+  {id:"d4-5",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"¿Qué servicio de AWS ayuda a detectar sesgo en los datos y modelos, y a explicar las predicciones?",
+   opciones:["Amazon SageMaker Clarify","Amazon Polly","AWS CloudTrail","Amazon S3 Glacier"],
+   correctas:[0],
+   explain:"SageMaker Clarify detecta sesgo en datos/modelos y aporta explicabilidad de las predicciones."},
+  {id:"d4-6",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"Una organización quiere incluir revisión humana de las predicciones de ML de bajo nivel de confianza. ¿Qué servicio usa?",
+   opciones:["Amazon Augmented AI (A2I)","Amazon Rekognition","AWS Config","Amazon Neptune"],
+   correctas:[0],
+   explain:"Amazon Augmented AI (A2I) añade flujos de revisión humana a las predicciones de ML."},
+  {id:"d4-7",dominio:"4",tarea:"4.1",tipo:"multi",
+   stem:"¿Cuáles son características deseables de un buen conjunto de datos para una IA responsable? (Elige DOS.)",
+   opciones:["Diversidad e inclusividad","Datos sesgados hacia un solo grupo","Conjuntos equilibrados (balanced)","Orígenes de datos desconocidos"],
+   correctas:[0,2],
+   explain:"Un buen dataset debe ser inclusivo, diverso, equilibrado y con orígenes de datos seleccionados (curated) y conocidos."},
+  {id:"d4-8",dominio:"4",tarea:"4.1",tipo:"multi",
+   stem:"¿Cuáles son riesgos LEGALES de trabajar con IA generativa? (Elige DOS.)",
+   opciones:["Infracción de propiedad intelectual","Reducción del costo por token","Salidas sesgadas que dañan la reputación","Mayor velocidad de inferencia"],
+   correctas:[0,2],
+   explain:"Los riesgos legales incluyen infracción de PI, salidas sesgadas, pérdida de confianza del cliente, riesgo para el usuario final y alucinaciones."},
+  {id:"d4-9",dominio:"4",tarea:"4.2",tipo:"single",
+   stem:"¿Cuál es la diferencia entre un modelo 'transparente' y uno 'explicable'?",
+   opciones:["Son exactamente lo mismo","Transparente = se puede ver cómo funciona; explicable = se puede entender por qué tomó una decisión","Explicable significa que es más rápido","Transparente significa que es de código cerrado"],
+   correctas:[1],
+   explain:"La transparencia se refiere a poder ver cómo funciona el modelo; la explicabilidad, a entender por qué produjo una decisión concreta."},
+  {id:"d4-10",dominio:"4",tarea:"4.2",tipo:"single",
+   stem:"¿Qué herramienta de AWS documenta la información y la gobernanza de un modelo (propósito, datos, métricas, limitaciones)?",
+   opciones:["Amazon SageMaker Model Cards","Amazon Macie","AWS Trusted Advisor","Amazon Lex"],
+   correctas:[0],
+   explain:"SageMaker Model Cards documenta detalles clave del modelo para transparencia y gobernanza."},
+  {id:"d4-11",dominio:"4",tarea:"4.2",tipo:"single",
+   stem:"¿Qué compensación (trade-off) suele existir con la explicabilidad de un modelo?",
+   opciones:["Más explicabilidad siempre mejora el rendimiento","A mayor interpretabilidad, a veces menor rendimiento (y viceversa)","La explicabilidad no tiene ningún costo","Los modelos explicables no pueden desplegarse"],
+   correctas:[1],
+   explain:"Existe una compensación entre interpretabilidad y rendimiento: modelos muy complejos rinden más pero son menos explicables."},
+  {id:"d4-12",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"¿Qué servicio de AWS monitorea modelos en producción para detectar deriva de datos y degradación de calidad?",
+   opciones:["SageMaker Model Monitor","Amazon Polly","AWS Artifact","Amazon EC2"],
+   correctas:[0],
+   explain:"SageMaker Model Monitor supervisa modelos en producción y detecta deriva de datos y caídas de calidad."},
+  {id:"d4-13",dominio:"4",tarea:"4.1",tipo:"single",
+   stem:"Al considerar prácticas responsables para SELECCIONAR un modelo, ¿qué factor ambiental es relevante?",
+   opciones:["El color del branding","La sostenibilidad y el impacto ambiental (modelos más eficientes)","El idioma del equipo de marketing","El número de regiones de AWS"],
+   correctas:[1],
+   explain:"Una selección responsable considera la sostenibilidad: preferir modelos eficientes reduce el consumo energético y la huella ambiental."},
+  {id:"d4-14",dominio:"4",tarea:"4.2",tipo:"multi",
+   stem:"¿Qué principios reflejan un diseño de IA explicable centrado en el ser humano? (Elige DOS.)",
+   opciones:["Mecanismos de retroalimentación del usuario","Ocultar siempre cómo decide la IA","Transparencia sobre las decisiones de la IA","Impedir que los usuarios reporten errores"],
+   correctas:[0,2],
+   explain:"El diseño centrado en el ser humano incluye mecanismos de retroalimentación del usuario y transparencia sobre las decisiones de la IA."},
+  /* ---------- DOMINIO 5 (14%) ---------- */
+  {id:"d5-1",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"¿Qué servicio de AWS se usa para gestionar identidades, roles y permisos de acceso a los recursos?",
+   opciones:["AWS IAM","Amazon Polly","Amazon Comprehend","AWS Budgets"],
+   correctas:[0],
+   explain:"AWS Identity and Access Management (IAM) controla el acceso a los recursos mediante usuarios, roles, políticas y permisos."},
+  {id:"d5-2",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"Una empresa necesita descubrir y proteger datos sensibles (PII) almacenados en Amazon S3. ¿Qué servicio usa?",
+   opciones:["Amazon Macie","Amazon Rekognition","AWS CloudTrail","Amazon Neptune"],
+   correctas:[0],
+   explain:"Amazon Macie usa ML para descubrir, clasificar y proteger datos sensibles (como PII) en Amazon S3."},
+  {id:"d5-3",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"Según el modelo de responsabilidad compartida de AWS, ¿de qué es responsable el CLIENTE?",
+   opciones:["De la seguridad de la infraestructura física de AWS","De la seguridad EN la nube: sus datos, IAM y configuración","Del mantenimiento del hardware de los centros de datos","De la energía de los servidores"],
+   correctas:[1],
+   explain:"AWS protege la seguridad DE la nube (infraestructura); el cliente es responsable de la seguridad EN la nube: datos, gestión de acceso (IAM) y configuración."},
+  {id:"d5-4",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"¿Qué servicio de AWS gestiona claves de cifrado para proteger datos en reposo?",
+   opciones:["AWS KMS (Key Management Service)","Amazon Lex","AWS Trusted Advisor","Amazon QuickSight"],
+   correctas:[0],
+   explain:"AWS KMS crea y administra claves criptográficas para cifrar datos en reposo en los servicios de AWS."},
+  {id:"d5-5",dominio:"5",tarea:"5.1",tipo:"multi",
+   stem:"¿Qué prácticas mejoran la seguridad y privacidad de un sistema de IA? (Elige DOS.)",
+   opciones:["Cifrado en reposo y en tránsito","Publicar las claves de acceso en el código","Control de acceso a los datos y validación de resultados","Deshabilitar todos los registros de auditoría"],
+   correctas:[0,2],
+   explain:"Buenas prácticas: cifrado en reposo/tránsito, control de acceso, validación/filtrado de resultados, prevención de fugas y registro/auditoría."},
+  {id:"d5-6",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"¿Qué técnica ayuda a REDUCIR las alucinaciones fundamentando (grounding) las respuestas del modelo?",
+   opciones:["Aumentar la temperatura","Usar RAG con fuentes verificadas","Eliminar la validación de salidas","Quitar los guardrails"],
+   correctas:[1],
+   explain:"RAG fundamenta las respuestas en fuentes verificadas (grounding), lo que reduce las alucinaciones. También ayudan la validación de salidas y la puntuación de confianza."},
+  {id:"d5-7",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"El seguimiento del origen y las transformaciones de los datos a lo largo de su ciclo de vida se conoce como:",
+   opciones:["Linaje de datos (data lineage)","Prompt injection","Clustering","Rendimiento aprovisionado"],
+   correctas:[0],
+   explain:"El linaje de datos documenta el origen y las transformaciones de los datos, clave para la procedencia y la citación de fuentes."},
+  {id:"d5-8",dominio:"5",tarea:"5.1",tipo:"single",
+   stem:"¿Qué servicio permite conectividad privada a los servicios de AWS sin exponer el tráfico a Internet?",
+   opciones:["AWS PrivateLink","Amazon CloudFront","Amazon Transcribe","AWS Budgets"],
+   correctas:[0],
+   explain:"AWS PrivateLink habilita conectividad privada entre VPCs y servicios de AWS sin pasar por la Internet pública."},
+  {id:"d5-9",dominio:"5",tarea:"5.2",tipo:"single",
+   stem:"¿Qué servicio registra las llamadas a la API (quién hizo qué acción) para fines de auditoría?",
+   opciones:["AWS CloudTrail","Amazon Polly","AWS Lambda","Amazon S3"],
+   correctas:[0],
+   explain:"AWS CloudTrail registra la actividad de la API (quién, qué, cuándo), fundamental para auditoría y gobernanza."},
+  {id:"d5-10",dominio:"5",tarea:"5.2",tipo:"single",
+   stem:"¿Qué servicio registra y evalúa la CONFIGURACIÓN de los recursos y su conformidad a lo largo del tiempo?",
+   opciones:["AWS Config","Amazon Macie","Amazon Lex","Amazon EC2"],
+   correctas:[0],
+   explain:"AWS Config registra la configuración de los recursos y evalúa su conformidad con las reglas definidas."},
+  {id:"d5-11",dominio:"5",tarea:"5.2",tipo:"single",
+   stem:"Una empresa necesita descargar informes de cumplimiento y certificaciones de AWS. ¿Qué servicio usa?",
+   opciones:["AWS Artifact","Amazon Rekognition","AWS Trusted Advisor","Amazon Neptune"],
+   correctas:[0],
+   explain:"AWS Artifact ofrece acceso bajo demanda a informes de cumplimiento (SOC, ISO, etc.) y acuerdos de AWS."},
+  {id:"d5-12",dominio:"5",tarea:"5.2",tipo:"multi",
+   stem:"¿Qué elementos forman parte de una estrategia de gobernanza de datos? (Elige DOS.)",
+   opciones:["Residencia y retención de datos","Publicar los datos sensibles abiertamente","Registro (logging) y supervisión","Eliminar todas las políticas de acceso"],
+   correctas:[0,2],
+   explain:"La gobernanza de datos abarca ciclos de vida, registro, residencia, supervisión, observabilidad y retención de datos."},
+  {id:"d5-13",dominio:"5",tarea:"5.2",tipo:"single",
+   stem:"¿Qué marco de AWS ayuda a evaluar y clasificar el alcance de seguridad de una carga de trabajo de IA generativa?",
+   opciones:["La Matriz de alcance de seguridad de la IA generativa (Generative AI Security Scoping Matrix)","El modelo de precios por token","La ventana de contexto","El algoritmo de clustering"],
+   correctas:[0],
+   explain:"La Matriz de alcance de seguridad de la IA generativa de AWS ayuda a categorizar los casos de uso de GenAI y sus consideraciones de seguridad."},
+  {id:"d5-14",dominio:"5",tarea:"5.2",tipo:"single",
+   stem:"¿Qué servicio de AWS realiza evaluaciones continuas de vulnerabilidades en las cargas de trabajo?",
+   opciones:["Amazon Inspector","Amazon Polly","Amazon Translate","AWS Cost Explorer"],
+   correctas:[0],
+   explain:"Amazon Inspector evalúa de forma continua las cargas de trabajo en busca de vulnerabilidades y exposiciones."},
+];
+
+/* ============================================================
+   ESTADO Y PERSISTENCIA
+   ============================================================ */
+const LS_KEY = "aifc01_progress_v1";
+let progreso = cargarProgreso();
+function cargarProgreso(){
+  try{ return JSON.parse(localStorage.getItem(LS_KEY)) || {}; }catch(e){ return {}; }
+}
+function guardarProgreso(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(progreso)); }catch(e){}
+}
+function registrar(qid, ok){
+  progreso[qid] = ok ? "ok" : "no";
+  guardarProgreso();
+  actualizarMiniProgreso();
+}
+function statsProgreso(){
+  const total = PREGUNTAS.length;
+  const respondidas = Object.keys(progreso).filter(k=>PREGUNTAS.some(q=>q.id===k)).length;
+  const correctas = Object.entries(progreso).filter(([k,v])=>v==="ok" && PREGUNTAS.some(q=>q.id===k)).length;
+  return {total, respondidas, correctas, pct: total? Math.round(respondidas/total*100):0};
+}
+function actualizarMiniProgreso(){
+  const s = statsProgreso();
+  const el = document.getElementById("miniProgress");
+  if(el) el.textContent = `Progreso: ${s.pct}% (${s.correctas}/${s.total} correctas)`;
+  const ini = document.getElementById("panel-inicio");
+  if(ini && ini.classList.contains("active")) renderInicio();
+}
+
+/* ============================================================
+   NAVEGACIÓN
+   ============================================================ */
+const tabs = document.getElementById("tabs");
+tabs.addEventListener("click", e=>{
+  const b = e.target.closest("button[data-tab]");
+  if(!b) return;
+  activarTab(b.dataset.tab);
+});
+function activarTab(tab){
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("active", x.dataset.tab===tab));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  const panel = document.getElementById("panel-"+tab);
+  panel.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(tab==="inicio") renderInicio();
+  if(tab==="repaso") renderRepaso();
+  if(tab==="preguntas") renderPreguntas();
+  if(tab==="flashcards") renderFlashcards();
+  if(tab==="glosario") renderGlosario();
+  if(tab==="servicios") renderServicios();
+  if(tab==="simulacro") renderSimulacroInicio();
+}
+
+/* ============================================================
+   INICIO
+   ============================================================ */
+function renderInicio(){
+  const s = statsProgreso();
+  const el = document.getElementById("panel-inicio");
+  el.innerHTML = `
+    <h2 class="section">Tu examen AWS Certified AI Practitioner (AIF-C01)</h2>
+    <p class="lead">Guía de repaso interactiva en español basada en la guía de examen oficial. Estudia las notas por dominio, practica con el banco de preguntas y ponte a prueba con el simulacro cronometrado.</p>
+    <div class="stat-row">
+      <div class="stat"><b>50</b><span>preguntas puntuadas (+15 sin puntaje)</span></div>
+      <div class="stat"><b>700</b><span>puntaje mínimo (escala 100–1000)</span></div>
+      <div class="stat"><b>~90</b><span>minutos de duración aprox.</span></div>
+      <div class="stat"><b>${PREGUNTAS.length}</b><span>preguntas de práctica aquí</span></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="progress-wrap">
+        <div class="ring" style="--p:${s.pct}"><div><b>${s.pct}%</b><small>completado</small></div></div>
+        <div style="flex:1;min-width:200px">
+          <h3 style="margin:0 0 6px;color:var(--ink)">Tu progreso</h3>
+          <p class="note" style="margin:0 0 8px">Respondidas: <b>${s.respondidas}/${s.total}</b> · Correctas: <b style="color:var(--green)">${s.correctas}</b></p>
+          <button class="btn" onclick="activarTab('preguntas')">Practicar preguntas</button>
+          <button class="btn ghost" onclick="reiniciarProgreso()">Reiniciar progreso</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 6px;color:var(--ink)">Ponderación de los dominios</h3>
+      <p class="note" style="margin:0 0 6px">El modelo de puntaje es compensatorio: solo necesitas aprobar el examen general, no cada dominio.</p>
+      <table class="weights">
+        <thead><tr><th>Dominio</th><th style="width:150px">Peso</th><th style="width:70px">Preguntas aquí</th></tr></thead>
+        <tbody>
+          ${DOMINIOS.map(d=>`<tr>
+            <td><b>${d.id}.</b> ${d.titulo}</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${d.peso*3.5}%"></i></div><b>${d.peso}%</b></div></td>
+            <td>${PREGUNTAS.filter(q=>q.dominio===d.id).length}</td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">💡 <b>Estrategia para 2 días:</b> Día 1 → lee el <b>Repaso por dominio</b> (prioriza D2 y D3, que suman el 52%) y usa las <b>Flashcards</b>. Día 2 → resuelve el <b>Banco de preguntas</b> completo y haz 1–2 <b>Simulacros</b>. Repasa la tabla de <b>Servicios AWS</b>: identificar el servicio correcto por caso de uso es clave.</div>
+  `;
+}
+function reiniciarProgreso(){
+  if(confirm("¿Seguro que quieres borrar todo tu progreso guardado?")){
+    progreso = {}; guardarProgreso(); actualizarMiniProgreso(); renderInicio();
+  }
+}
+
+/* ============================================================
+   REPASO POR DOMINIO
+   ============================================================ */
+function renderRepaso(){
+  const el = document.getElementById("panel-repaso");
+  el.innerHTML = `
+    <h2 class="section">Repaso por dominio</h2>
+    <p class="lead">Notas de estudio concisas por cada enunciado de tarea de la guía oficial. Haz clic para expandir cada tema.</p>
+    ${DOMINIOS.map(d=>`
+      <div class="domain-head">
+        <span class="pill">Dominio ${d.id}</span>
+        <h3>${d.titulo}</h3>
+        <span class="w">${d.peso}% del examen</span>
+      </div>
+      ${d.tareas.map(t=>`
+        <div class="acc">
+          <button onclick="this.parentElement.classList.toggle('open')">
+            <span class="tno">${t.id}</span> ${t.titulo}
+            <span class="chev">▼</span>
+          </button>
+          <div class="body">
+            <ul>${t.puntos.map(p=>`<li>${p}</li>`).join("")}</ul>
+            ${t.servicios && t.servicios.length ? `<div class="tags">${t.servicios.map(s=>`<span class="tag">${s}</span>`).join("")}</div>`:""}
+          </div>
+        </div>
+      `).join("")}
+    `).join("")}
+  `;
+}
+
+/* ============================================================
+   BANCO DE PREGUNTAS
+   ============================================================ */
+let filtroDominio = "todos";
+function renderPreguntas(){
+  const el = document.getElementById("panel-preguntas");
+  const lista = filtroDominio==="todos" ? PREGUNTAS : PREGUNTAS.filter(q=>q.dominio===filtroDominio);
+  el.innerHTML = `
+    <h2 class="section">Banco de preguntas</h2>
+    <p class="lead">Responde y pulsa “Comprobar” para ver la retroalimentación y la explicación. Tu progreso se guarda automáticamente.</p>
+    <div class="filters">
+      <span class="chip ${filtroDominio==='todos'?'active':''}" onclick="setFiltro('todos')">Todos (${PREGUNTAS.length})</span>
+      ${DOMINIOS.map(d=>`<span class="chip ${filtroDominio===d.id?'active':''}" onclick="setFiltro('${d.id}')">D${d.id} (${PREGUNTAS.filter(q=>q.dominio===d.id).length})</span>`).join("")}
+    </div>
+    <div id="qlist">${lista.map(q=>tarjetaPregunta(q)).join("")}</div>
+  `;
+  lista.forEach(q=>{ if(progreso[q.id]) repintarResuelta(q.id); });
+}
+function setFiltro(d){ filtroDominio=d; renderPreguntas(); }
+function tipoLabel(t){ return t==="multi" ? "Respuesta múltiple" : "Opción múltiple"; }
+function tarjetaPregunta(q){
+  const multi = q.tipo==="multi";
+  return `<div class="q" id="q-${q.id}" data-tipo="${q.tipo}">
+    <div class="meta">
+      <span class="d">Dominio ${q.dominio} · ${q.tarea}</span>
+      <span class="ty">${tipoLabel(q.tipo)}</span>
+      <span class="st" id="st-${q.id}" style="display:none"></span>
+    </div>
+    <div class="stem">${q.stem}</div>
+    <div class="opts" id="opts-${q.id}">
+      ${q.opciones.map((o,i)=>`
+        <div class="opt ${multi?'':'radio'}" data-i="${i}" onclick="toggleOpt('${q.id}',${i},${multi})">
+          <span class="box"></span><span>${o}</span>
+        </div>`).join("")}
+    </div>
+    <div class="actions">
+      <button class="btn" id="chk-${q.id}" onclick="comprobar('${q.id}')">Comprobar</button>
+      <button class="btn ghost" onclick="reiniciarPregunta('${q.id}')">Reintentar</button>
+    </div>
+    <div class="explain" id="ex-${q.id}"><b>Explicación:</b> </div>
+  </div>`;
+}
+const seleccion = {}; // qid -> Set(idx)
+function toggleOpt(qid, i, multi){
+  const cont = document.getElementById("q-"+qid);
+  if(cont.classList.contains("resuelta")) return;
+  if(!seleccion[qid]) seleccion[qid]=new Set();
+  const set = seleccion[qid];
+  if(multi){
+    set.has(i)?set.delete(i):set.add(i);
+  }else{
+    set.clear(); set.add(i);
+  }
+  cont.querySelectorAll(".opt").forEach(op=>{
+    op.classList.toggle("sel", set.has(+op.dataset.i));
+  });
+}
+function comprobar(qid){
+  const q = PREGUNTAS.find(x=>x.id===qid);
+  const set = seleccion[qid] || new Set();
+  if(set.size===0){ alert("Selecciona al menos una opción."); return; }
+  const cont = document.getElementById("q-"+qid);
+  cont.classList.add("resuelta");
+  const correctas = new Set(q.correctas);
+  let ok = set.size===correctas.size && [...set].every(i=>correctas.has(i));
+  cont.querySelectorAll(".opt").forEach(op=>{
+    const i = +op.dataset.i;
+    op.classList.add("locked");
+    if(correctas.has(i)) op.classList.add("correct");
+    else if(set.has(i)) op.classList.add("wrong");
+    op.classList.remove("sel");
+    const box = op.querySelector(".box");
+    if(correctas.has(i)) box.textContent="✓";
+    else if(set.has(i)) box.textContent="✗";
+  });
+  const st = document.getElementById("st-"+qid);
+  st.style.display="inline-block";
+  st.className = "st "+(ok?"ok":"no");
+  st.textContent = ok ? "Correcto" : "Incorrecto";
+  const ex = document.getElementById("ex-"+qid);
+  ex.innerHTML = "<b>Explicación:</b> "+q.explain;
+  ex.classList.add("show");
+  document.getElementById("chk-"+qid).disabled = true;
+  registrar(qid, ok);
+}
+function reiniciarPregunta(qid){
+  seleccion[qid]=new Set();
+  const cont = document.getElementById("q-"+qid);
+  cont.classList.remove("resuelta");
+  cont.querySelectorAll(".opt").forEach(op=>{
+    op.className = "opt "+(cont.dataset.tipo==="multi"?"":"radio");
+    op.querySelector(".box").textContent="";
+  });
+  document.getElementById("st-"+qid).style.display="none";
+  document.getElementById("ex-"+qid).classList.remove("show");
+  document.getElementById("chk-"+qid).disabled=false;
+}
+function repintarResuelta(qid){
+  // Marca visualmente el estado guardado (correcto/incorrecto) sin las opciones concretas
+  const st = document.getElementById("st-"+qid);
+  if(!st) return;
+  const v = progreso[qid];
+  st.style.display="inline-block";
+  st.className="st "+(v==="ok"?"ok":"no");
+  st.textContent = v==="ok" ? "Ya respondida ✓" : "Ya respondida ✗";
+}
+
+/* ============================================================
+   FLASHCARDS
+   ============================================================ */
+function renderFlashcards(){
+  const el = document.getElementById("panel-flashcards");
+  el.innerHTML = `
+    <h2 class="section">Flashcards</h2>
+    <p class="lead">Haz clic en una tarjeta para revelar la respuesta. Ideal para repaso rápido de conceptos y servicios.</p>
+    <div class="fc-grid">
+      ${FLASHCARDS.map((f,i)=>`
+        <div class="fc" onclick="this.classList.toggle('flip')">
+          <div class="fc-inner">
+            <div class="fc-face fc-front">${f.frente}<small>Toca para ver</small></div>
+            <div class="fc-face fc-back">${f.reverso}</div>
+          </div>
+        </div>`).join("")}
+    </div>
+  `;
+}
+
+/* ============================================================
+   GLOSARIO
+   ============================================================ */
+function renderGlosario(){
+  const el = document.getElementById("panel-glosario");
+  el.innerHTML = `
+    <h2 class="section">Glosario de términos clave</h2>
+    <p class="lead">Los términos de mayor rendimiento para el examen, con su equivalente en inglés (útil si rindes en inglés).</p>
+    <div class="card"><dl class="glos">
+      ${GLOSARIO.map(g=>`<dt>${g.t} <span class="en">· ${g.en}</span></dt><dd>${g.d}</dd>`).join("")}
+    </dl></div>
+  `;
+}
+
+/* ============================================================
+   SERVICIOS AWS
+   ============================================================ */
+function renderServicios(){
+  const el = document.getElementById("panel-servicios");
+  el.innerHTML = `
+    <h2 class="section">Servicios de AWS dentro del alcance</h2>
+    <p class="lead">Saber “para qué sirve cada servicio” es de los temas más rentables del examen. Repásalos por categoría.</p>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table class="svc">
+        <tbody>
+        ${SERVICIOS.map(cat=>`
+          <tr class="cat-row"><td colspan="2">${cat.cat}</td></tr>
+          ${cat.items.map(s=>`<tr><td class="name">${s.n}</td><td>${s.d}</td></tr>`).join("")}
+        `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+/* ============================================================
+   SIMULACRO
+   ============================================================ */
+let sim = null;
+function renderSimulacroInicio(){
+  const el = document.getElementById("panel-simulacro");
+  if(sim && sim.enCurso){ renderSimulacroPreguntas(); return; }
+  const n = Math.min(50, PREGUNTAS.length);
+  el.innerHTML = `
+    <h2 class="section">Simulacro de examen</h2>
+    <p class="lead">Un examen de práctica con ${n} preguntas seleccionadas al azar, cronómetro y puntaje escalado 100–1000 (aprobación ≥700), igual que el examen real. No verás la retroalimentación hasta terminar.</p>
+    <div class="card">
+      <h3 style="margin:0 0 8px;color:var(--ink)">¿List@ para empezar?</h3>
+      <ul style="margin:0 0 14px;color:var(--muted);font-size:14px">
+        <li>${n} preguntas al azar de los 5 dominios.</li>
+        <li>Cronómetro de referencia (90 minutos).</li>
+        <li>Al final: puntaje escalado, veredicto y desglose por dominio.</li>
+      </ul>
+      <button class="btn" onclick="iniciarSimulacro()">Iniciar simulacro</button>
+    </div>
+  `;
+}
+function iniciarSimulacro(){
+  const n = Math.min(50, PREGUNTAS.length);
+  const barajado = [...PREGUNTAS].sort(()=>Math.random()-0.5).slice(0,n);
+  sim = { preguntas:barajado, respuestas:{}, enCurso:true, inicio:Date.now(), limite:90*60 };
+  seleccion._sim = {};
+  renderSimulacroPreguntas();
+  iniciarTimer();
+}
+let timerInt = null;
+function iniciarTimer(){
+  clearInterval(timerInt);
+  timerInt = setInterval(()=>{
+    if(!sim || !sim.enCurso){ clearInterval(timerInt); return; }
+    const trans = Math.floor((Date.now()-sim.inicio)/1000);
+    const rest = sim.limite - trans;
+    const t = document.getElementById("sim-timer");
+    if(t){
+      if(rest<=0){ t.textContent="00:00"; finalizarSimulacro(); return; }
+      const m = String(Math.floor(rest/60)).padStart(2,"0");
+      const s = String(rest%60).padStart(2,"0");
+      t.textContent = `${m}:${s}`;
+    }
+  },1000);
+}
+function renderSimulacroPreguntas(){
+  const el = document.getElementById("panel-simulacro");
+  el.innerHTML = `
+    <div class="sim-bar">
+      <span class="timer" id="sim-timer">90:00</span>
+      <span class="count">Respondidas: <b id="sim-count">0</b>/${sim.preguntas.length}</span>
+      <button class="btn blue" style="margin-left:auto" onclick="finalizarSimulacro()">Terminar y ver resultado</button>
+    </div>
+    ${sim.preguntas.map((q,idx)=>{
+      const multi = q.tipo==="multi";
+      return `<div class="q" id="sq-${q.id}">
+        <div class="meta"><span class="d">Pregunta ${idx+1} · Dominio ${q.dominio}</span><span class="ty">${tipoLabel(q.tipo)}</span></div>
+        <div class="stem">${q.stem}</div>
+        <div class="opts">
+          ${q.opciones.map((o,i)=>`<div class="opt ${multi?'':'radio'}" data-i="${i}" onclick="simSel('${q.id}',${i},${multi})"><span class="box"></span><span>${o}</span></div>`).join("")}
+        </div>
+      </div>`;
+    }).join("")}
+    <div style="text-align:center;margin-top:8px">
+      <button class="btn blue" onclick="finalizarSimulacro()">Terminar y ver resultado</button>
+    </div>
+  `;
+}
+function simSel(qid,i,multi){
+  if(!sim.respuestas[qid]) sim.respuestas[qid]=new Set();
+  const set = sim.respuestas[qid];
+  if(multi){ set.has(i)?set.delete(i):set.add(i); } else { set.clear(); set.add(i); }
+  if(set.size===0) delete sim.respuestas[qid];
+  const cont = document.getElementById("sq-"+qid);
+  cont.querySelectorAll(".opt").forEach(op=>op.classList.toggle("sel", set.has(+op.dataset.i)));
+  document.getElementById("sim-count").textContent = Object.keys(sim.respuestas).length;
+}
+function finalizarSimulacro(){
+  if(!sim || !sim.enCurso) return;
+  if(Object.keys(sim.respuestas).length < sim.preguntas.length){
+    if(!confirm("Aún tienes preguntas sin responder (contarán como incorrectas). ¿Terminar de todos modos?")) return;
+  }
+  sim.enCurso=false; clearInterval(timerInt);
+  let correctas=0; const porDom={};
+  DOMINIOS.forEach(d=>porDom[d.id]={ok:0,total:0});
+  sim.preguntas.forEach(q=>{
+    porDom[q.dominio].total++;
+    const set = sim.respuestas[q.id] || new Set();
+    const cor = new Set(q.correctas);
+    const ok = set.size===cor.size && [...set].every(i=>cor.has(i));
+    if(ok){ correctas++; porDom[q.dominio].ok++; }
+    registrar(q.id, ok);
+  });
+  const total = sim.preguntas.length;
+  const ratio = correctas/total;
+  const escala = Math.round(100 + ratio*900); // 100–1000
+  const aprob = escala>=700;
+  const trans = Math.floor((Date.now()-sim.inicio)/1000);
+  const mm = String(Math.floor(trans/60)).padStart(2,"0"), ss=String(trans%60).padStart(2,"0");
+  const el = document.getElementById("panel-simulacro");
+  el.innerHTML = `
+    <h2 class="section">Resultado del simulacro</h2>
+    <div class="card" style="text-align:center">
+      <div class="result-score ${aprob?'pass':'fail'}">${escala}</div>
+      <div class="verdict ${aprob?'pass':'fail'}">${aprob?'APROBADO ✓':'REPROBADO ✗'}</div>
+      <p class="note">Acertaste <b>${correctas}</b> de <b>${total}</b> (${Math.round(ratio*100)}%). Puntaje mínimo para aprobar: 700. Tiempo: ${mm}:${ss}.</p>
+      <div class="dom-break">
+        ${DOMINIOS.map(d=>{
+          const p=porDom[d.id]; const pc = p.total? Math.round(p.ok/p.total*100):0;
+          return `<div class="row"><div>D${d.id} · ${d.titulo}</div><div><div class="bar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${pc}%"></i></div> <b>${p.ok}/${p.total}</b></div></div>`;
+        }).join("")}
+      </div>
+      <div style="margin-top:18px">
+        <button class="btn" onclick="iniciarSimulacro()">Repetir simulacro</button>
+        <button class="btn ghost" onclick="renderSimulacroInicio()">Volver</button>
+      </div>
+    </div>
+    ${aprob?'<div class="callout">🎉 ¡Buen trabajo! Repasa igualmente las preguntas que fallaste en el Banco de preguntas.</div>':'<div class="callout">📚 Sigue repasando los dominios con menor puntaje y vuelve a intentarlo. ¡Tú puedes!</div>'}
+  `;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderInicio();
+actualizarMiniProgreso();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Archivos temporales de verificación
+_check.js
+_harness.js
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
