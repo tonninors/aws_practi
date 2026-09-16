@@ -10,3 +10,8 @@ desktop.ini
 # Editores
 .vscode/
 .idea/
+
+# Logs y túneles locales
+*.log
+cloudflared.log
+
