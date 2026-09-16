@@ -1588,7 +1588,7 @@ async function enviarCodigo(email){
   emailPendiente = email;
   document.getElementById("loginForm").style.display = "none";
   document.getElementById("otpForm").style.display = "";
-  document.getElementById("authLead").textContent = `Escribe el código que enviamos a ${email}.`;
+  document.getElementById("authLead").textContent = `Escribe el código que enviamos a ${email} (revisa también la carpeta de spam).`;
   document.getElementById("otpCode").value = "";
   iniciarCooldownReenvio(60);
   return true;
