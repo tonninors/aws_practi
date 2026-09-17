@@ -232,7 +232,6 @@
       <span class="logo">AWS · AIF-C01</span>
       <h1>Guía interactiva · AI Practitioner</h1>
       <span class="sub" id="miniProgress">Avance: 0%</span>
-      <span class="sub" id="syncStatus" style="cursor:pointer" onclick="accionSync()"></span>
       <span class="sub" id="userInfo"></span>
       <button class="btn ghost" id="loginHeaderBtn" style="display:none;margin-left:8px" onclick="abrirLogin()">Iniciar sesión</button>
       <button class="btn ghost" id="logoutBtn" style="display:none;margin-left:8px" onclick="cerrarSesion()">Salir</button>
@@ -1530,9 +1529,6 @@ function abrirLogin(){
 }
 function cerrarLogin(){
   document.getElementById("authOverlay").classList.remove("open");
-}
-function accionSync(){
-  if(usuarioActual) sincronizarProgreso(true); else abrirLogin();
 }
 async function comprobarSesion(){
   const { data: { session } } = await supabaseClient.auth.getSession();
