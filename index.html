@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guías de estudio AWS</title>
+<link rel="stylesheet" href="shared/styles.css">
+<style>
+  .picker-top{
+    background:linear-gradient(120deg,var(--ink) 0%,var(--ink2) 100%);
+    color:#fff;padding:16px 18px;
+  }
+  .picker-top-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .picker-top .logo{
+    background:var(--orange);color:var(--ink);font-weight:800;border-radius:8px;
+    padding:6px 10px;font-size:14px;letter-spacing:.5px;white-space:nowrap
+  }
+  .picker-top span.title{font-size:15px;font-weight:650;color:#e8ecf1}
+  .picker{max-width:640px;margin:0 auto;padding:44px 18px 60px}
+  .picker h1{font-size:26px;font-weight:750;color:var(--ink);margin:0 0 8px;display:flex;align-items:center;gap:10px}
+  .picker h1::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--orange);flex:none}
+  .picker p.lead{margin:0 0 6px}
+  .picker p.reassure{margin:0 0 26px;color:var(--muted);font-size:13.5px}
+  .picker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .picker-card{display:block;text-decoration:none;transition:.15s}
+  .picker-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .picker-card .logo{
+    background:var(--orange);color:var(--ink);font-weight:800;border-radius:8px;
+    padding:4px 9px;font-size:12.5px;letter-spacing:.3px;margin-bottom:10px;display:inline-block
+  }
+  .picker-card h2{margin:0 0 6px;color:var(--ink);font-size:17px;font-weight:700}
+  .picker-card p{margin:0;color:var(--muted);font-size:13.5px}
+</style>
+</head>
+<body>
+<header class="picker-top">
+  <div class="picker-top-inner">
+    <span class="logo">AWS</span>
+    <span class="title">Guías interactivas de certificación</span>
+  </div>
+</header>
+<div class="picker">
+  <h1>Elige el examen que estás preparando</h1>
+  <p class="lead">Repaso por dominio, banco de preguntas, casos de estudio y simulacro cronometrado — en español.</p>
+  <p class="reassure">Gratis, sin necesidad de cuenta. Tu progreso se guarda en este navegador (y en la nube si inicias sesión).</p>
+  <div class="picker-grid">
+    <a class="picker-card card" href="/guia-ai-practitioner">
+      <span class="logo">AWS · AIF-C01</span>
+      <h2>AI Practitioner</h2>
+      <p>Fundamentos de IA/ML y GenAI en AWS: terminología, casos de uso, Amazon Bedrock y uso responsable de la IA.</p>
+    </a>
+    <a class="picker-card card" href="/guia-cloud-practitioner">
+      <span class="logo">AWS · CLF-C02</span>
+      <h2>Cloud Practitioner</h2>
+      <p>Fundamentos de la nube AWS: conceptos, seguridad y cumplimiento, servicios principales, facturación y soporte.</p>
+    </a>
+  </div>
+</div>
+</body>
+</html>
