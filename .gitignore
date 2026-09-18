@@ -15,3 +15,9 @@ desktop.ini
 *.log
 cloudflared.log
 
+# Snapshots locales de revisiones de diseño (Impeccable)
+.impeccable/
+
+# Configuración local de Claude Code (skills/agentes, incluye binarios)
+.claude/
+

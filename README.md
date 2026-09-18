@@ -1,12 +1,32 @@
-# Guía interactiva · AWS Certified AI Practitioner (AIF-C01)
+# Guías interactivas de certificación AWS
 
-Guía de estudio **interactiva, en español y autocontenida** para preparar el examen
-**AWS Certified AI Practitioner (AIF-C01)**. Todo el contenido está basado en la guía de
-examen oficial de AWS: los 5 dominios, sus ponderaciones y los 11 enunciados de tarea (1.1–5.2).
+Guías de estudio **interactivas, en español y autocontenidas** para preparar exámenes de
+certificación de AWS. Actualmente incluye:
 
-👉 **Ejecuta `node server.js`** y abre `http://localhost:8787` en el navegador.
-Necesitas el servidor corriendo porque ahora la guía pide iniciar sesión (con solo tu correo, sin
-contraseña) para guardar tu progreso en la nube y sincronizarlo entre dispositivos.
+- **AWS Certified AI Practitioner (AIF-C01)** — `/guia-ai-practitioner`
+- **AWS Certified Cloud Practitioner (CLF-C02)** — `/guia-cloud-practitioner` (contenido en progreso)
+
+Todo el contenido de cada examen está basado en su guía de examen oficial de AWS (dominios,
+ponderaciones y enunciados de tarea).
+
+👉 **Ejecuta `node server.js`** y abre `http://localhost:8787` en el navegador — verás un
+selector para elegir el examen. El servidor solo sirve archivos estáticos (no hay backend propio);
+el login (con solo tu correo, sin contraseña) y el progreso en la nube los maneja Supabase
+directamente desde el navegador.
+
+## Estructura del repo
+
+```
+/shared/styles.css, shared/app.js     → motor de la app: una sola vez, compartido por todos los exámenes
+/exams/<examen>/data.js               → contenido de cada examen (dominios, preguntas, flashcards, glosario, servicios)
+/guia-<examen>.html                   → shell delgado por examen (define window.EXAM_META y carga shared/app.js + su data.js)
+/index.html                           → selector de examen
+```
+
+Un fix o mejora de UX en `shared/app.js` o `shared/styles.css` aplica a todos los exámenes a la
+vez. Para agregar un examen nuevo: crea `exams/<id>/data.js` con el mismo formato, un
+`guia-<id>.html` (copia uno existente y cambia `window.EXAM_META`), y agrega una entrada al
+arreglo `EXAMENES` en `shared/app.js` (así aparece en el botón "Cambiar examen" del header).
 
 ## Contenido
 
@@ -71,11 +91,28 @@ Para usar tu propio proyecto de Supabase:
 1. Crea un proyecto en [supabase.com](https://supabase.com).
 2. En *Authentication → URL Configuration*, agrega la URL donde sirvas la guía (por ejemplo
    `http://localhost:8787` o tu dominio de producción) como **Site URL** y en **Redirect URLs**.
-3. En el *SQL Editor*, crea la tabla `progreso` con Row Level Security (ver el esquema en el
-   historial del proyecto o pide la migración).
+3. En el *SQL Editor*, crea la tabla `progreso` con Row Level Security, incluyendo la columna
+   `examen` (separa el progreso de cada certificación aunque compartan `qid`):
+   ```sql
+   create table if not exists public.progreso (
+     user_id uuid not null references auth.users(id) on delete cascade,
+     examen text not null,
+     qid text not null,
+     intentos int not null default 0,
+     correctas int not null default 0,
+     ultima bigint not null default 0,
+     racha int not null default 0,
+     primary key (user_id, examen, qid)
+   );
+   alter table public.progreso enable row level security;
+   create policy "select own progreso" on public.progreso for select using (auth.uid() = user_id);
+   create policy "insert own progreso" on public.progreso for insert with check (auth.uid() = user_id);
+   create policy "update own progreso" on public.progreso for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+   create policy "delete own progreso" on public.progreso for delete using (auth.uid() = user_id);
+   ```
 4. En *Project Settings → API*, copia el **Project URL** y la **Publishable/anon key** (nunca la
-   `secret key`) y reemplázalas en las constantes `SUPABASE_URL` / `SUPABASE_ANON_KEY` al inicio del
-   `<script>` de `guia-ai-practitioner.html`.
+   `secret key`) y reemplázalas en las constantes `SUPABASE_URL` / `SUPABASE_ANON_KEY` al inicio de
+   `shared/app.js` (son compartidas por todos los exámenes).
 
 Para hostear en la nube: al no depender de ningún estado en el servidor, basta con servir
 `guia-ai-practitioner.html` como archivo estático — no hace falta disco persistente ni variables de
@@ -88,9 +125,10 @@ entorno. `server.js` (con `node server.js`) sigue funcionando si prefieres un ho
    → Connect to Git**, elige este repositorio (`tonninors/aws_practi`).
 2. Configuración de build: **déjala vacía** (no hay build; el sitio es HTML plano). "Build output
    directory" → `/` (raíz del repo).
-3. Deploy. Cloudflare te da una URL gratis tipo `aws-practi.pages.dev` — el archivo
-   [`_redirects`](_redirects) ya está configurado para que la raíz (`/`) sirva
-   `guia-ai-practitioner.html`.
+3. Deploy. Cloudflare te da una URL gratis tipo `aws-practi.pages.dev` — la raíz (`/`) sirve
+   `index.html` (selector de examen) automáticamente, y cada `guia-<examen>.html` queda disponible
+   también sin la extensión (ej. `/guia-ai-practitioner`); el archivo [`_redirects`](_redirects)
+   solo lo deja explícito como red de seguridad.
 4. (Opcional) **Dominio propio**: compra un dominio en *Cloudflare → Registrar* (lo vende al costo,
    sin margen) y en el proyecto de Pages ve a **Custom domains → Set up a domain** — al estar en la
    misma cuenta, Cloudflare configura el DNS automáticamente.
