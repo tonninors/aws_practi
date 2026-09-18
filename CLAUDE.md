@@ -78,7 +78,9 @@ services, and the comparator are still empty and need to be authored.
 
 **Deployment: static hosting, no server required in production.** The app has no server-side state
 beyond serving files, so it's designed for Cloudflare Pages, which serves `/` as `index.html` and
-exposes every `guia-*.html` at its extensionless path automatically; `_redirects` makes the two
-guide routes explicit as a safety net. `server.js` remains only for local development or a
-Node-based host — it's optional in production. See `README.md` ("Desplegar en Cloudflare Pages")
+exposes every `guia-*.html` at its extensionless path automatically. Do not add a `_redirects`
+file duplicating this — a rewrite rule for `/guia-x` → `/guia-x.html` fights with Cloudflare's own
+built-in clean-URL canonicalization and causes an `ERR_TOO_MANY_REDIRECTS` loop in production.
+`server.js` mirrors the same extensionless-fallback behavior for local development or a Node-based
+host — it's optional in production. See `README.md` ("Desplegar en Cloudflare Pages")
 for the full deploy/DNS/Supabase-redirect-URL/Resend-domain checklist.

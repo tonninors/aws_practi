@@ -127,8 +127,9 @@ entorno. `server.js` (con `node server.js`) sigue funcionando si prefieres un ho
    directory" → `/` (raíz del repo).
 3. Deploy. Cloudflare te da una URL gratis tipo `aws-practi.pages.dev` — la raíz (`/`) sirve
    `index.html` (selector de examen) automáticamente, y cada `guia-<examen>.html` queda disponible
-   también sin la extensión (ej. `/guia-ai-practitioner`); el archivo [`_redirects`](_redirects)
-   solo lo deja explícito como red de seguridad.
+   también sin la extensión (ej. `/guia-ai-practitioner`) de forma nativa. **No agregues un archivo
+   `_redirects`** que reescriba esas mismas rutas: choca con la canonicalización de URLs limpias que
+   Cloudflare Pages ya hace por su cuenta y produce un loop `ERR_TOO_MANY_REDIRECTS`.
 4. (Opcional) **Dominio propio**: compra un dominio en *Cloudflare → Registrar* (lo vende al costo,
    sin margen) y en el proyecto de Pages ve a **Custom domains → Set up a domain** — al estar en la
    misma cuenta, Cloudflare configura el DNS automáticamente.
